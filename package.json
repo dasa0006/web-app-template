@@ -3,15 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-		"node": ">=18.18.0",
-		"npm": "11.2.0",
-		"yarn": "please use npm"
-	},
+    "node": ">=18.18.0",
+    "npm": "11.2.0",
+    "yarn": "please use npm"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "next": "16.1.6",

@@ -1,4 +1,6 @@
 import type { Preview } from "@storybook/nextjs-vite";
+import "../app/globals.css";
+import { fontVariables } from "../lib/fonts";
 
 const preview: Preview = {
   parameters: {
@@ -16,6 +18,13 @@ const preview: Preview = {
       test: "todo",
     },
   },
+  decorators: [
+    (Story) => (
+      <div className={`${fontVariables} font-sans antialiased`}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default preview;

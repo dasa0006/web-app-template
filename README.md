@@ -29,8 +29,34 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Testing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project uses [Vitest](https://vitest.dev/) for unit testing and [Storybook](https://storybook.js.org/) for component testing.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Running Tests
+
+```bash
+# Run all tests
+npm test
+
+# Run tests once
+npm run test:run
+
+# Run unit tests only
+npm run test:unit
+
+# Run Storybook tests only
+npm run test:storybook
+
+# Run tests with coverage
+npm run test:coverage
+
+# Run tests with UI
+npm run test:ui
+```
+
+### Writing Tests
+
+- Unit tests should be placed next to the file they test with `.test.ts` or `.spec.ts` extension
+- Component tests are handled by Storybook stories
+- Use `@testing-library/react` for component testing utilities

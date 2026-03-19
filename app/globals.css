@@ -1,26 +1,92 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* Design token definitions (raw --token-* custom properties) */
+@import "../styles/tokens.css";
 
+/* =============================================================================
+   Tailwind v4 Theme Bridge
+   @theme inline maps --token-* values to Tailwind's utility namespaces.
+   This is the ONLY place that translates tokens into utilities — component
+   files never reference --token-* directly.
+
+   Resulting utilities (examples):
+     bg-brand-primary       text-brand-primary       border-brand-primary
+     bg-surface-raised      text-text-muted          border-border-default
+     py-section             p-card                   gap-section-sm
+     rounded-card           rounded-pill
+     shadow-card            shadow-md
+   ============================================================================= */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* --- Brand colours --- */
+  --color-brand-primary: var(--token-brand-primary);
+  --color-brand-primary-hover: var(--token-brand-primary-hover);
+  --color-brand-primary-subtle: var(--token-brand-primary-subtle);
+  --color-brand-primary-fg: var(--token-brand-primary-fg);
+  --color-brand-secondary: var(--token-brand-secondary);
+  --color-brand-secondary-fg: var(--token-brand-secondary-fg);
+  --color-brand-accent: var(--token-brand-accent);
+
+  /* --- Text colours --- */
+  --color-text-primary: var(--token-text-primary);
+  --color-text-secondary: var(--token-text-secondary);
+  --color-text-muted: var(--token-text-muted);
+  --color-text-disabled: var(--token-text-disabled);
+  --color-text-inverted: var(--token-text-inverted);
+  --color-text-on-brand: var(--token-text-on-brand);
+
+  /* --- Surface colours --- */
+  --color-surface-base: var(--token-surface-base);
+  --color-surface-subtle: var(--token-surface-subtle);
+  --color-surface-raised: var(--token-surface-raised);
+  --color-surface-overlay: var(--token-surface-overlay);
+  --color-surface-inverted: var(--token-surface-inverted);
+
+  /* --- Border colours --- */
+  --color-border-subtle: var(--token-border-subtle);
+  --color-border-default: var(--token-border-default);
+  --color-border-strong: var(--token-border-strong);
+  --color-border-focus: var(--token-border-focus);
+
+  /* --- Feedback colours --- */
+  --color-feedback-success: var(--token-feedback-success);
+  --color-feedback-warning: var(--token-feedback-warning);
+  --color-feedback-error: var(--token-feedback-error);
+  --color-feedback-info: var(--token-feedback-info);
+
+  /* --- Spacing (creates py-section, p-card, gap-section-sm, etc.) --- */
+  --spacing-section: var(--token-spacing-section);
+  --spacing-section-sm: var(--token-spacing-section-sm);
+  --spacing-card: var(--token-spacing-card);
+  --spacing-card-sm: var(--token-spacing-card-sm);
+
+  /* --- Border Radius (creates rounded-card, rounded-pill, etc.) --- */
+  --radius-sm: var(--token-radius-sm);
+  --radius-md: var(--token-radius-md);
+  --radius-lg: var(--token-radius-lg);
+  --radius-card: var(--token-radius-card);
+  --radius-xl: var(--token-radius-xl);
+  --radius-pill: var(--token-radius-pill);
+
+  /* --- Shadows (creates shadow-card, shadow-md, etc.) --- */
+  --shadow-sm: var(--token-shadow-sm);
+  --shadow-md: var(--token-shadow-md);
+  --shadow-lg: var(--token-shadow-lg);
+  --shadow-card: var(--token-shadow-card);
+
+  /* --- Fonts --- */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* --- Legacy aliases (keep existing bg-background / text-foreground working) --- */
+  --color-background: var(--token-surface-base);
+  --color-foreground: var(--token-text-primary);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* =============================================================================
+   Base styles
+   ============================================================================= */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--token-surface-base);
+  color: var(--token-text-primary);
+  font-family: var(--font-sans, Arial, Helvetica, sans-serif);
 }

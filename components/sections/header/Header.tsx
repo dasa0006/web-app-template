@@ -2,8 +2,9 @@
 
 import { MaxWidthWrapper } from "@/components/ui/maxWidthWrapper/MaxWidthWrapper";
 import { useScrolled } from "@/hooks/useScrolled";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
+
 import { ReactNode, useEffect, useRef, useState } from "react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────

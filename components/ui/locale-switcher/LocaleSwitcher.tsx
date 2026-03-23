@@ -7,7 +7,7 @@ import { useLocale } from "next-intl";
 
 const LOCALE_LABELS: Record<(typeof routing.locales)[number], string> = {
   en: "EN",
-  es: "ES",
+  da: "DA",
 };
 
 export const LocaleSwitcher = () => {

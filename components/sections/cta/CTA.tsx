@@ -4,6 +4,7 @@ import {
 } from "@/components/sections/section/Section";
 import { Heading } from "@/components/ui/heading/Heading";
 import { MaxWidthWrapper } from "@/components/ui/maxWidthWrapper/MaxWidthWrapper";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
 
@@ -100,7 +101,7 @@ export const CTA = ({
           {buttons.length > 0 && (
             <div className="flex flex-wrap justify-center gap-3 pt-2">
               {buttons.map((btn) => (
-                <a
+                <Link
                   key={btn.label}
                   href={btn.href}
                   className={cn(
@@ -109,7 +110,7 @@ export const CTA = ({
                   )}
                 >
                   {btn.label}
-                </a>
+                </Link>
               ))}
             </div>
           )}

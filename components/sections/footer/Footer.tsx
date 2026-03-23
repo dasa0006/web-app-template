@@ -1,4 +1,5 @@
 import { MaxWidthWrapper } from "@/components/ui/maxWidthWrapper/MaxWidthWrapper";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
 
@@ -114,12 +115,12 @@ export const Footer = ({
                 <ul className="flex flex-wrap gap-4">
                   {legalLinks.map((link) => (
                     <li key={link.label}>
-                      <a
+                      <Link
                         href={link.href}
                         className="text-xs text-text-muted transition-colors duration-200 hover:text-text-primary"
                       >
                         {link.label}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>

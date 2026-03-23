@@ -173,13 +173,13 @@ const MobileDrawer = ({
           <ul className="flex flex-col gap-1" role="list">
             {navLinks.map((link) => (
               <li key={link.label}>
-                <a
+                <Link
                   href={link.href}
                   onClick={onClose}
                   className="flex items-center rounded-xl px-3 py-3 text-base font-medium text-text-secondary transition-colors duration-150 hover:bg-surface-subtle hover:text-text-primary"
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -188,7 +188,7 @@ const MobileDrawer = ({
           {ctas.length > 0 && (
             <div className="mt-auto flex flex-col gap-2 pt-8 border-t border-border-subtle">
               {ctas.map((cta) => (
-                <a
+                <Link
                   key={cta.label}
                   href={cta.href}
                   onClick={onClose}
@@ -199,7 +199,7 @@ const MobileDrawer = ({
                   )}
                 >
                   {cta.label}
-                </a>
+                </Link>
               ))}
             </div>
           )}
@@ -262,12 +262,12 @@ export const Header = ({
                 <ul className="flex items-center gap-1" role="list">
                   {navLinks.map((link) => (
                     <li key={link.label}>
-                      <a
+                      <Link
                         href={link.href}
                         className="rounded-lg px-3 py-2 text-sm font-medium text-text-secondary transition-colors duration-150 hover:bg-surface-subtle hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus"
                       >
                         {link.label}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -280,7 +280,7 @@ export const Header = ({
               {ctas.length > 0 && (
                 <div className="hidden items-center gap-2 md:flex">
                   {ctas.map((cta) => (
-                    <a
+                    <Link
                       key={cta.label}
                       href={cta.href}
                       className={cn(
@@ -289,7 +289,7 @@ export const Header = ({
                       )}
                     >
                       {cta.label}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               )}

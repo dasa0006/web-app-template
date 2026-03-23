@@ -29,15 +29,15 @@ const columnMap: Record<FeatureGridColumns, string> = {
 };
 
 const FeatureCard = ({ icon, title, description }: IFeatureCard) => (
-  <div className="group flex flex-col gap-4 rounded-2xl border border-zinc-100 bg-white p-6 transition-all duration-300 hover:border-zinc-200 hover:shadow-lg hover:shadow-zinc-100">
-    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600 transition-colors duration-200 group-hover:bg-amber-100">
+  <div className="group flex flex-col gap-4 rounded-card border border-border-subtle bg-surface-raised p-card transition-all duration-300 hover:border-border-default hover:shadow-card">
+    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-50 text-amber-600 transition-colors duration-200 group-hover:bg-amber-100">
       {icon}
     </div>
     <div className="flex flex-col gap-1.5">
-      <h3 className="text-base font-semibold tracking-tight text-zinc-900">
+      <h3 className="text-base font-semibold tracking-tight text-text-primary">
         {title}
       </h3>
-      <p className="text-sm leading-relaxed text-zinc-500">{description}</p>
+      <p className="text-sm leading-relaxed text-text-muted">{description}</p>
     </div>
   </div>
 );
@@ -62,11 +62,11 @@ export const FeatureGrid = ({
                 {eyebrow}
               </span>
             )}
-            <Heading className="max-w-2xl text-3xl sm:text-4xl font-bold tracking-tight text-zinc-900">
+            <Heading className="max-w-2xl text-3xl sm:text-4xl font-bold tracking-tight">
               {heading}
             </Heading>
             {subheading && (
-              <p className="max-w-xl text-base leading-relaxed text-zinc-500">
+              <p className="max-w-xl text-base leading-relaxed text-text-muted">
                 {subheading}
               </p>
             )}

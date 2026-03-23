@@ -21,10 +21,10 @@ const sizeMap: Record<SectionSize, string> = {
 };
 
 const backgroundMap: Record<SectionBackground, string> = {
-  white: "bg-white text-zinc-900",
-  subtle: "bg-zinc-50 text-zinc-900",
-  dark: "bg-zinc-900 text-zinc-50",
-  accent: "bg-amber-500 text-zinc-900",
+  white: "bg-surface-base text-text-primary",
+  subtle: "bg-surface-subtle text-text-primary",
+  dark: "bg-surface-inverted text-text-inverted",
+  accent: "bg-brand-accent text-text-primary",
 };
 
 export const Section = ({

@@ -22,7 +22,7 @@ export interface ICTA {
 }
 
 const buttonBase =
-  "inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2";
+  "inline-flex items-center justify-center rounded-pill px-6 py-3 text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2";
 
 type BgKey = "dark" | "accent" | "white";
 
@@ -30,26 +30,32 @@ const buttonVariants: Record<
   BgKey,
   Record<NonNullable<ICTAButton["variant"]>, string>
 > = {
+  // Dark background (surface-inverted) — amber primary pops on dark
   dark: {
     primary:
-      "bg-amber-500 text-zinc-900 hover:bg-amber-400 focus-visible:ring-amber-500",
+      "bg-brand-accent text-text-primary hover:opacity-90 focus-visible:ring-brand-accent",
     secondary:
-      "border border-zinc-700 text-zinc-200 hover:bg-zinc-800 hover:border-zinc-600 focus-visible:ring-zinc-500",
-    ghost: "text-zinc-300 hover:text-white focus-visible:ring-zinc-500",
+      "border border-border-strong text-text-inverted hover:bg-surface-raised/10 hover:border-border-strong focus-visible:ring-border-focus",
+    ghost:
+      "text-text-inverted/70 hover:text-text-inverted focus-visible:ring-border-focus",
   },
+  // Accent background (brand-accent / amber) — dark primary for contrast
   accent: {
     primary:
-      "bg-zinc-900 text-white hover:bg-zinc-800 focus-visible:ring-zinc-900",
+      "bg-surface-inverted text-text-inverted hover:opacity-90 focus-visible:ring-surface-inverted",
     secondary:
-      "border border-zinc-900/20 text-zinc-900 hover:bg-zinc-900/5 focus-visible:ring-zinc-900",
-    ghost: "text-zinc-700 hover:text-zinc-900 focus-visible:ring-zinc-900",
+      "border border-border-strong/30 text-text-primary hover:bg-surface-inverted/10 focus-visible:ring-border-focus",
+    ghost:
+      "text-text-secondary hover:text-text-primary focus-visible:ring-border-focus",
   },
+  // White/light background — brand primary CTA
   white: {
     primary:
-      "bg-zinc-900 text-white hover:bg-zinc-700 focus-visible:ring-zinc-900",
+      "bg-brand-primary text-text-on-brand hover:bg-brand-primary-hover focus-visible:ring-brand-primary",
     secondary:
-      "border border-zinc-200 text-zinc-900 hover:bg-zinc-50 focus-visible:ring-zinc-400",
-    ghost: "text-zinc-500 hover:text-zinc-900 focus-visible:ring-zinc-400",
+      "border border-border-default text-text-primary hover:bg-surface-subtle focus-visible:ring-border-focus",
+    ghost:
+      "text-text-muted hover:text-text-primary focus-visible:ring-border-focus",
   },
 };
 
@@ -70,7 +76,7 @@ export const CTA = ({
           <Heading
             className={cn(
               "max-w-3xl text-3xl sm:text-5xl font-bold tracking-tight leading-tight",
-              isDark ? "text-zinc-50" : "text-zinc-900"
+              isDark ? "text-text-inverted" : "text-text-primary"
             )}
           >
             {heading}
@@ -81,10 +87,10 @@ export const CTA = ({
               className={cn(
                 "max-w-xl text-base leading-relaxed",
                 isDark
-                  ? "text-zinc-400"
+                  ? "text-text-inverted/60"
                   : isAccent
-                    ? "text-zinc-700"
-                    : "text-zinc-500"
+                    ? "text-text-secondary"
+                    : "text-text-muted"
               )}
             >
               {subheading}

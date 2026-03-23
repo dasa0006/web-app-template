@@ -32,7 +32,7 @@ const FooterLinkItem = ({ label, href }: IFooterLink) => (
   <li>
     <a
       href={href}
-      className="text-sm text-zinc-400 transition-colors duration-200 hover:text-zinc-900"
+      className="text-sm text-text-muted transition-colors duration-200 hover:text-text-primary"
     >
       {label}
     </a>
@@ -50,7 +50,10 @@ export const Footer = ({
 }: IFooter) => {
   return (
     <footer
-      className={cn("w-full border-t border-zinc-100 bg-white", className)}
+      className={cn(
+        "w-full border-t border-border-subtle bg-surface-base",
+        className
+      )}
     >
       <MaxWidthWrapper>
         <div className="py-16">
@@ -68,7 +71,7 @@ export const Footer = ({
             <div className="col-span-2 flex flex-col gap-4 md:col-span-1">
               <div>{brand}</div>
               {tagline && (
-                <p className="max-w-xs text-sm leading-relaxed text-zinc-400">
+                <p className="max-w-xs text-sm leading-relaxed text-text-muted">
                   {tagline}
                 </p>
               )}
@@ -79,7 +82,7 @@ export const Footer = ({
                       key={s.label}
                       href={s.href}
                       aria-label={s.label}
-                      className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-400 transition-colors duration-200 hover:bg-zinc-50 hover:text-zinc-900"
+                      className="flex h-8 w-8 items-center justify-center rounded-lg text-text-muted transition-colors duration-200 hover:bg-surface-subtle hover:text-text-primary"
                     >
                       {s.icon}
                     </a>
@@ -91,7 +94,7 @@ export const Footer = ({
             {/* Nav columns */}
             {columns.map((col) => (
               <div key={col.heading} className="flex flex-col gap-4">
-                <h4 className="text-xs font-semibold uppercase tracking-widest text-zinc-900">
+                <h4 className="text-xs font-semibold uppercase tracking-widest text-text-primary">
                   {col.heading}
                 </h4>
                 <ul className="flex flex-col gap-2.5">
@@ -104,8 +107,8 @@ export const Footer = ({
           </div>
 
           {/* Bottom: legal */}
-          <div className="mt-12 flex flex-col items-start gap-4 border-t border-zinc-100 pt-8 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-xs text-zinc-400">{copyright}</p>
+          <div className="mt-12 flex flex-col items-start gap-4 border-t border-border-subtle pt-8 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-xs text-text-muted">{copyright}</p>
             {legalLinks.length > 0 && (
               <nav aria-label="Legal links">
                 <ul className="flex flex-wrap gap-4">
@@ -113,7 +116,7 @@ export const Footer = ({
                     <li key={link.label}>
                       <a
                         href={link.href}
-                        className="text-xs text-zinc-400 transition-colors duration-200 hover:text-zinc-900"
+                        className="text-xs text-text-muted transition-colors duration-200 hover:text-text-primary"
                       >
                         {link.label}
                       </a>

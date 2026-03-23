@@ -21,13 +21,13 @@ export interface IHero {
 }
 
 const ctaBase =
-  "inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2";
+  "inline-flex items-center justify-center rounded-pill px-6 py-3 text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2";
 
 const ctaVariants: Record<NonNullable<IHeroCTA["variant"]>, string> = {
   primary:
-    "bg-zinc-900 text-white hover:bg-zinc-700 focus-visible:ring-zinc-900",
+    "bg-brand-primary text-text-on-brand hover:bg-brand-primary-hover focus-visible:ring-brand-primary",
   secondary:
-    "border border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-50 hover:border-zinc-300 focus-visible:ring-zinc-400",
+    "border border-border-default bg-surface-base text-text-primary hover:bg-surface-subtle hover:border-border-strong focus-visible:ring-border-focus",
 };
 
 export const Hero = ({
@@ -52,7 +52,7 @@ export const Hero = ({
         >
           {/* Eyebrow */}
           {eyebrow && (
-            <span className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3.5 py-1 text-xs font-semibold uppercase tracking-widest text-amber-700">
+            <span className="inline-flex items-center gap-2 rounded-pill border border-amber-200 bg-amber-50 px-3.5 py-1 text-xs font-semibold uppercase tracking-widest text-amber-700">
               <span
                 aria-hidden="true"
                 className="inline-block h-1.5 w-1.5 rounded-full bg-amber-500"
@@ -64,7 +64,7 @@ export const Hero = ({
           {/* Heading */}
           <Heading
             className={cn(
-              "max-w-4xl text-5xl sm:text-6xl md:text-7xl font-bold leading-[1.05] tracking-tighter text-zinc-900",
+              "max-w-4xl text-5xl sm:text-6xl md:text-7xl font-bold leading-[1.05] tracking-tighter",
               isCentered && "mx-auto"
             )}
           >
@@ -75,7 +75,7 @@ export const Hero = ({
           {subheading && (
             <p
               className={cn(
-                "max-w-2xl text-lg leading-relaxed text-zinc-500",
+                "max-w-2xl text-lg leading-relaxed text-text-muted",
                 isCentered && "mx-auto"
               )}
             >
@@ -107,7 +107,7 @@ export const Hero = ({
           {media && (
             <div
               className={cn(
-                "w-full mt-8 overflow-hidden rounded-2xl border border-zinc-100 shadow-xl shadow-zinc-100",
+                "w-full mt-8 overflow-hidden rounded-card border border-border-subtle shadow-card",
                 isCentered && "mx-auto max-w-5xl"
               )}
             >

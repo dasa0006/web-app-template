@@ -33,32 +33,24 @@ export interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary: [
-    "bg-zinc-900 text-white border border-zinc-900",
-    "hover:bg-zinc-700 hover:border-zinc-700",
-    "active:bg-zinc-950 active:scale-[0.98]",
-    "disabled:bg-zinc-300 disabled:border-zinc-300 disabled:text-zinc-500",
-    "dark:bg-white dark:text-zinc-900 dark:border-white",
-    "dark:hover:bg-zinc-200 dark:hover:border-zinc-200",
-    "dark:disabled:bg-zinc-700 dark:disabled:border-zinc-700 dark:disabled:text-zinc-500",
+    "bg-brand-primary text-text-on-brand border border-brand-primary",
+    "hover:bg-brand-primary-hover hover:border-brand-primary-hover",
+    "active:scale-[0.98]",
+    "disabled:bg-surface-subtle disabled:border-border-default disabled:text-text-disabled",
   ].join(" "),
 
   secondary: [
-    "bg-transparent text-zinc-900 border border-zinc-300",
-    "hover:bg-zinc-100 hover:border-zinc-400",
-    "active:bg-zinc-200 active:scale-[0.98]",
-    "disabled:text-zinc-400 disabled:border-zinc-200",
-    "dark:text-zinc-100 dark:border-zinc-700",
-    "dark:hover:bg-zinc-800 dark:hover:border-zinc-600",
-    "dark:disabled:text-zinc-600 dark:disabled:border-zinc-800",
+    "bg-transparent text-text-primary border border-border-default",
+    "hover:bg-surface-subtle hover:border-border-strong",
+    "active:bg-surface-subtle active:scale-[0.98]",
+    "disabled:text-text-disabled disabled:border-border-subtle",
   ].join(" "),
 
   ghost: [
-    "bg-transparent text-zinc-700 border border-transparent",
-    "hover:bg-zinc-100 hover:text-zinc-900",
-    "active:bg-zinc-200 active:scale-[0.98]",
-    "disabled:text-zinc-400",
-    "dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100",
-    "dark:disabled:text-zinc-600",
+    "bg-transparent text-text-secondary border border-transparent",
+    "hover:bg-surface-subtle hover:text-text-primary",
+    "active:bg-surface-subtle active:scale-[0.98]",
+    "disabled:text-text-disabled",
   ].join(" "),
 };
 
@@ -141,8 +133,7 @@ export const Button = forwardRef<HTMLButtonElement, IButton>(
           "relative inline-flex items-center justify-center font-medium",
           "tracking-tight select-none whitespace-nowrap",
           "transition-all duration-150 ease-out",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2",
-          "dark:focus-visible:ring-zinc-100",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2",
           "cursor-pointer disabled:cursor-not-allowed",
           // Variant
           variantStyles[variant],

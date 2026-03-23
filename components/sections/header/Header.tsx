@@ -39,13 +39,13 @@ export interface IHeader {
 // ─── Style constants ──────────────────────────────────────────────────────────
 
 const ctaBase =
-  "inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2";
+  "inline-flex items-center justify-center rounded-pill px-4 py-2 text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2";
 
 const ctaVariants: Record<NonNullable<IHeaderCTA["variant"]>, string> = {
   primary:
-    "bg-zinc-900 text-white hover:bg-zinc-700 focus-visible:ring-zinc-900",
+    "bg-brand-primary text-text-on-brand hover:bg-brand-primary-hover focus-visible:ring-brand-primary",
   secondary:
-    "border border-zinc-200 text-zinc-700 hover:bg-zinc-50 hover:border-zinc-300 focus-visible:ring-zinc-400",
+    "border border-border-default text-text-secondary hover:bg-surface-subtle hover:border-border-strong focus-visible:ring-border-focus",
 };
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
@@ -107,7 +107,6 @@ const MobileDrawer = ({
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
-      // Move focus into the panel after the transition starts
       const id = window.setTimeout(() => closeButtonRef.current?.focus(), 50);
       return () => {
         clearTimeout(id);
@@ -135,7 +134,7 @@ const MobileDrawer = ({
         aria-hidden="true"
         onClick={onClose}
         className={cn(
-          "fixed inset-0 z-40 bg-zinc-900/30 backdrop-blur-sm transition-opacity duration-300 md:hidden",
+          "fixed inset-0 z-40 bg-surface-inverted/30 backdrop-blur-sm transition-opacity duration-300 md:hidden",
           isOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -149,18 +148,18 @@ const MobileDrawer = ({
         aria-modal="true"
         aria-label="Navigation menu"
         className={cn(
-          "fixed inset-y-0 right-0 z-50 flex w-full max-w-xs flex-col bg-white shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] md:hidden",
+          "fixed inset-y-0 right-0 z-50 flex w-full max-w-xs flex-col bg-surface-base shadow-lg transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] md:hidden",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
         {/* Drawer header */}
-        <div className="flex items-center justify-between border-b border-zinc-100 px-5 py-4">
+        <div className="flex items-center justify-between border-b border-border-subtle px-5 py-4">
           <div>{brand}</div>
           <button
             ref={closeButtonRef}
             onClick={onClose}
             aria-label="Close navigation menu"
-            className="flex h-9 w-9 items-center justify-center rounded-lg text-zinc-500 transition-colors hover:bg-zinc-50 hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900"
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-text-muted transition-colors hover:bg-surface-subtle hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus"
           >
             <CloseIcon />
           </button>
@@ -177,7 +176,7 @@ const MobileDrawer = ({
                 <a
                   href={link.href}
                   onClick={onClose}
-                  className="flex items-center rounded-xl px-3 py-3 text-base font-medium text-zinc-700 transition-colors duration-150 hover:bg-zinc-50 hover:text-zinc-900"
+                  className="flex items-center rounded-xl px-3 py-3 text-base font-medium text-text-secondary transition-colors duration-150 hover:bg-surface-subtle hover:text-text-primary"
                 >
                   {link.label}
                 </a>
@@ -187,7 +186,7 @@ const MobileDrawer = ({
 
           {/* CTAs at the bottom of the nav */}
           {ctas.length > 0 && (
-            <div className="mt-auto flex flex-col gap-2 pt-8 border-t border-zinc-100">
+            <div className="mt-auto flex flex-col gap-2 pt-8 border-t border-border-subtle">
               {ctas.map((cta) => (
                 <a
                   key={cta.label}
@@ -233,12 +232,12 @@ export const Header = ({
           // Background
           isTransparent && !solidified
             ? "bg-transparent"
-            : "bg-white/90 backdrop-blur-md",
+            : "bg-surface-base/90 backdrop-blur-md",
           // Border — appears once solid
           !isTransparent || solidified
             ? scrolled
-              ? "border-b border-zinc-100 shadow-sm shadow-zinc-900/3"
-              : "border-b border-zinc-100"
+              ? "border-b border-border-subtle shadow-sm"
+              : "border-b border-border-subtle"
             : "border-b border-transparent",
           className
         )}
@@ -249,7 +248,7 @@ export const Header = ({
             <Link
               href="/"
               aria-label="Go to homepage"
-              className="shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 rounded-md"
+              className="shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2 rounded-md"
             >
               {brand}
             </Link>
@@ -265,7 +264,7 @@ export const Header = ({
                     <li key={link.label}>
                       <a
                         href={link.href}
-                        className="rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 transition-colors duration-150 hover:bg-zinc-50 hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900"
+                        className="rounded-lg px-3 py-2 text-sm font-medium text-text-secondary transition-colors duration-150 hover:bg-surface-subtle hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus"
                       >
                         {link.label}
                       </a>
@@ -302,7 +301,7 @@ export const Header = ({
                 aria-expanded={drawerOpen}
                 aria-controls="mobile-nav-drawer"
                 onClick={() => setDrawerOpen(true)}
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-zinc-600 transition-colors hover:bg-zinc-50 hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 md:hidden"
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-surface-subtle hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus md:hidden"
               >
                 <MenuIcon />
               </button>

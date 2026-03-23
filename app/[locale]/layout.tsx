@@ -85,7 +85,9 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
-      <body className={`${fontVariables} antialiased`}>
+      <body
+        className={`${fontVariables} antialiased grid grid-rows-[auto_1fr_auto] min-h-screen`}
+      >
         <NextIntlClientProvider messages={messages}>
           <MarketingLayout>{children}</MarketingLayout>
         </NextIntlClientProvider>

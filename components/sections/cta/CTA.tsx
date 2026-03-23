@@ -75,6 +75,7 @@ export const CTA = ({
       <MaxWidthWrapper>
         <div className="flex flex-col items-center gap-8 text-center">
           <Heading
+            as="h2"
             className={cn(
               "max-w-3xl text-3xl sm:text-5xl font-bold tracking-tight leading-tight",
               isDark ? "text-text-inverted" : "text-text-primary"

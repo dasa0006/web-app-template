@@ -62,7 +62,10 @@ export const FeatureGrid = ({
                 {eyebrow}
               </span>
             )}
-            <Heading className="max-w-2xl text-3xl sm:text-4xl font-bold tracking-tight">
+            <Heading
+              as="h2"
+              className="max-w-2xl text-3xl sm:text-4xl font-bold tracking-tight"
+            >
               {heading}
             </Heading>
             {subheading && (

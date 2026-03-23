@@ -1,3 +1,4 @@
+import MarketingLayout from "@/components/layouts/MarketingLayout";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
@@ -86,7 +87,7 @@ export default async function RootLayout({
     <html lang={locale}>
       <body className={`${fontVariables} antialiased`}>
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <MarketingLayout>{children}</MarketingLayout>
         </NextIntlClientProvider>
 
         <script

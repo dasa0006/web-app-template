@@ -30,7 +30,7 @@ const columnMap: Record<FeatureGridColumns, string> = {
 
 const FeatureCard = ({ icon, title, description }: IFeatureCard) => (
   <div className="group flex flex-col gap-4 rounded-card border border-border-subtle bg-surface-raised p-card transition-all duration-300 hover:border-border-default hover:shadow-card">
-    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-50 text-amber-600 transition-colors duration-200 group-hover:bg-amber-100">
+    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-accent/10 text-brand-accent transition-colors duration-200 group-hover:bg-brand-accent/20">
       {icon}
     </div>
     <div className="flex flex-col gap-1.5">
@@ -58,7 +58,7 @@ export const FeatureGrid = ({
           {/* Header */}
           <div className="flex flex-col items-center gap-4 text-center">
             {eyebrow && (
-              <span className="text-xs font-semibold uppercase tracking-widest text-amber-600">
+              <span className="text-xs font-semibold uppercase tracking-widest text-brand-accent">
                 {eyebrow}
               </span>
             )}

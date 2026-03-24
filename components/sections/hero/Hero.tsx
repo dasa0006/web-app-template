@@ -52,10 +52,10 @@ export const Hero = ({
         >
           {/* Eyebrow */}
           {eyebrow && (
-            <span className="inline-flex items-center gap-2 rounded-pill border border-amber-200 bg-amber-50 px-3.5 py-1 text-xs font-semibold uppercase tracking-widest text-amber-700">
+            <span className="inline-flex items-center gap-2 rounded-pill border border-brand-accent/20 bg-brand-accent/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-widest text-brand-accent">
               <span
                 aria-hidden="true"
-                className="inline-block h-1.5 w-1.5 rounded-full bg-amber-500"
+                className="inline-block h-1.5 w-1.5 rounded-full bg-brand-accent"
               />
               {eyebrow}
             </span>

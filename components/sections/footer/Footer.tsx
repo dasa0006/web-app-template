@@ -31,12 +31,12 @@ export interface IFooter {
 
 const FooterLinkItem = ({ label, href }: IFooterLink) => (
   <li>
-    <a
+    <Link
       href={href}
       className="text-sm text-text-muted transition-colors duration-200 hover:text-text-primary"
     >
       {label}
-    </a>
+    </Link>
   </li>
 );
 

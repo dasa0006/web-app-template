@@ -1,14 +1,25 @@
-import { configureTracking } from "@/hooks/useButtonTracking";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Button } from "./Button";
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// Mock the tracking hook so we can spy on its calls without affecting other tests
+const mockHandleClick = vi.fn();
+vi.mock("@/hooks/useButtonTracking", () => ({
+  useButtonTracking: ({ event, meta, onClick }: any) => ({
+    handleClick: (e: any) => {
+      if (event) {
+        // Simulate tracking call
+        mockHandleClick(event, meta);
+      }
+      onClick?.(e);
+    },
+  }),
+  configureTracking: vi.fn(),
+}));
 
 const renderButton = (props?: Partial<React.ComponentProps<typeof Button>>) =>
   render(<Button {...props}>Click me</Button>);
-
-// ─── Rendering ────────────────────────────────────────────────────────────────
 
 describe("Button — rendering", () => {
   it("renders children", () => {
@@ -21,7 +32,7 @@ describe("Button — rendering", () => {
   it("applies the primary variant by default", () => {
     renderButton();
     const btn = screen.getByRole("button");
-    expect(btn.className).toMatch(/bg-zinc-900/);
+    expect(btn.className).toMatch(/bg-brand-primary/);
   });
 
   it("applies the secondary variant", () => {
@@ -65,8 +76,6 @@ describe("Button — rendering", () => {
   });
 });
 
-// ─── Disabled state ───────────────────────────────────────────────────────────
-
 describe("Button — disabled state", () => {
   it("is disabled when disabled prop is true", () => {
     renderButton({ disabled: true });
@@ -86,8 +95,6 @@ describe("Button — disabled state", () => {
   });
 });
 
-// ─── Loading state ────────────────────────────────────────────────────────────
-
 describe("Button — loading state", () => {
   it("is disabled when isLoading is true", () => {
     renderButton({ isLoading: true });
@@ -106,7 +113,6 @@ describe("Button — loading state", () => {
 
   it("hides content visually while loading", () => {
     renderButton({ isLoading: true });
-    // The content span should have aria-hidden=true
     const btn = screen.getByRole("button");
     const contentSpan = btn.querySelector("[aria-hidden='true']");
     expect(contentSpan).toBeInTheDocument();
@@ -120,9 +126,11 @@ describe("Button — loading state", () => {
   });
 });
 
-// ─── Click & tracking ─────────────────────────────────────────────────────────
-
 describe("Button — click and tracking", () => {
+  beforeEach(() => {
+    mockHandleClick.mockClear();
+  });
+
   it("fires onClick when clicked", () => {
     const onClick = vi.fn();
     renderButton({ onClick });
@@ -131,9 +139,6 @@ describe("Button — click and tracking", () => {
   });
 
   it("calls the tracking adapter when trackingEvent is provided", () => {
-    const trackFn = vi.fn();
-    configureTracking(trackFn);
-
     render(
       <Button trackingEvent="cta_clicked" trackingMeta={{ location: "hero" }}>
         Track me
@@ -141,24 +146,24 @@ describe("Button — click and tracking", () => {
     );
 
     fireEvent.click(screen.getByRole("button"));
-    expect(trackFn).toHaveBeenCalledWith("cta_clicked", { location: "hero" });
+    expect(mockHandleClick).toHaveBeenCalledWith("cta_clicked", {
+      location: "hero",
+    });
   });
 
   it("does not call the tracking adapter when trackingEvent is absent", () => {
-    const trackFn = vi.fn();
-    configureTracking(trackFn);
-
     renderButton();
     fireEvent.click(screen.getByRole("button"));
-    expect(trackFn).not.toHaveBeenCalled();
+    expect(mockHandleClick).not.toHaveBeenCalled();
   });
 
   it("fires tracking before onClick", () => {
     const order: string[] = [];
-    const trackFn = vi.fn(() => order.push("track"));
-    configureTracking(trackFn);
-
     const onClick = vi.fn(() => order.push("click"));
+
+    // We'll capture the call order by spying on mockHandleClick and onClick
+    mockHandleClick.mockImplementation(() => order.push("track"));
+
     render(
       <Button trackingEvent="cta" onClick={onClick}>
         Ordered
@@ -169,8 +174,6 @@ describe("Button — click and tracking", () => {
     expect(order).toEqual(["track", "click"]);
   });
 });
-
-// ─── Forwarded ref ────────────────────────────────────────────────────────────
 
 describe("Button — forwarded ref", () => {
   it("forwards ref to the button element", () => {

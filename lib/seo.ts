@@ -67,23 +67,16 @@ export function buildMetadata({
     : `${SITE_CONFIG.url}${image}`;
 
   return {
-    title: {
-      default: title,
-      // Prevents Next.js from appending the template to an already-full title.
-      // The template lives in the root layout; individual pages pass plain strings.
-      absolute: `${title} | ${SITE_CONFIG.name}`,
-    },
+    title, // ← string only, layout template adds the brand
     description,
     metadataBase: new URL(SITE_CONFIG.url),
 
-    // ── Canonical ──────────────────────────────
     alternates: {
       canonical,
     },
 
-    // ── Open Graph ─────────────────────────────
     openGraph: {
-      title: `${title} | ${SITE_CONFIG.name}`,
+      title, // ← just the page title
       description,
       url: canonical,
       siteName: SITE_CONFIG.name,
@@ -99,17 +92,15 @@ export function buildMetadata({
       ],
     },
 
-    // ── Twitter / X ────────────────────────────
     twitter: {
       card: "summary_large_image",
-      title: `${title} | ${SITE_CONFIG.name}`,
+      title, // ← just the page title
       description,
       site: SITE_CONFIG.twitterHandle,
       creator: SITE_CONFIG.twitterHandle,
       images: [ogImage],
     },
 
-    // ── Robots ─────────────────────────────────
     robots: noIndex
       ? { index: false, follow: false }
       : { index: true, follow: true },

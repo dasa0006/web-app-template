@@ -1,9 +1,19 @@
 import type { Preview } from "@storybook/nextjs-vite";
+import { NextIntlClientProvider } from "next-intl";
 import "../app/globals.css";
 import { fontVariables } from "../lib/fonts";
+import nextIntl from "./next-intl";
 
 const preview: Preview = {
+  initialGlobals: {
+    locale: "en",
+    locales: {
+      en: "English",
+      da: "Dansk",
+    },
+  },
   parameters: {
+    nextIntl,
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -20,9 +30,11 @@ const preview: Preview = {
   },
   decorators: [
     (Story) => (
-      <div className={`${fontVariables} font-sans antialiased`}>
-        <Story />
-      </div>
+      <NextIntlClientProvider messages={nextIntl.messagesByLocale} locale="en">
+        <div className={`${fontVariables} font-sans antialiased`}>
+          <Story />
+        </div>
+      </NextIntlClientProvider>
     ),
   ],
 };

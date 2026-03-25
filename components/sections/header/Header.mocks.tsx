@@ -40,3 +40,10 @@ export const mockHeaderNavOnly: IHeader = {
   brand: <Brand />,
   navLinks: base.navLinks,
 };
+
+export const mockHeaderWithLocaleSwitcher: IHeader = {
+  brand: <Brand />,
+  navLinks: base.navLinks,
+  showLocaleSwitcher: true,
+  ctas: [{ label: "Get started", href: "#", variant: "primary" }],
+};

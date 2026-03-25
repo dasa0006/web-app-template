@@ -7,6 +7,7 @@ import {
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { ReactNode, useEffect, useRef } from "react";
+import { LocaleSwitcher } from "../localeSwitcher/LocaleSwitcher";
 
 const CloseIcon = () => (
   <svg
@@ -32,6 +33,7 @@ interface DrawerProps {
   brand: ReactNode;
   navLinks: INavLink[];
   ctas: IHeaderCTA[];
+  showLocaleSwitcher?: boolean; // ← new flag
 }
 
 const MobileDrawer = ({
@@ -40,6 +42,7 @@ const MobileDrawer = ({
   brand,
   navLinks,
   ctas,
+  showLocaleSwitcher,
 }: DrawerProps) => {
   const panelRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -124,7 +127,11 @@ const MobileDrawer = ({
               </li>
             ))}
           </ul>
-
+          {showLocaleSwitcher && (
+            <div className="md:hidden block mx-auto py-3">
+              <LocaleSwitcher />
+            </div>
+          )}
           {/* CTAs at the bottom of the nav */}
           {ctas.length > 0 && (
             <div className="mt-auto flex flex-col gap-2 pt-8 border-t border-border-subtle">

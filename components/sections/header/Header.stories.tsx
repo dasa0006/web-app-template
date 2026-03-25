@@ -7,6 +7,7 @@ import {
   mockHeaderNavOnly,
   mockHeaderProps,
   mockHeaderTransparent,
+  mockHeaderWithLocaleSwitcher,
 } from "./Header.mocks";
 
 const meta = {
@@ -75,4 +76,8 @@ export const TransparentWithHero: Story = {
       </div>
     </div>
   ),
+};
+
+export const WithLocaleSwitcher: Story = {
+  args: mockHeaderWithLocaleSwitcher,
 };

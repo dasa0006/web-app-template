@@ -1,5 +1,6 @@
 "use client";
 
+import { LocaleSwitcher } from "@/components/ui/localeSwitcher/LocaleSwitcher";
 import { MaxWidthWrapper } from "@/components/ui/maxWidthWrapper/MaxWidthWrapper";
 import MobileDrawer from "@/components/ui/mobileDrawer/MobileDrawer";
 import { useScrolled } from "@/hooks/useScrolled";
@@ -34,6 +35,7 @@ export interface IHeader {
    *                 then transitions to solid once the user scrolls.
    */
   variant?: HeaderVariant;
+  showLocaleSwitcher?: boolean; // ← new flag
   className?: string;
 }
 
@@ -75,6 +77,7 @@ export const Header = ({
   navLinks = [],
   ctas = [],
   variant = "solid",
+  showLocaleSwitcher,
   className,
 }: IHeader) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -153,6 +156,12 @@ export const Header = ({
                 </div>
               )}
 
+              {showLocaleSwitcher && (
+                <div className="hidden md:block">
+                  <LocaleSwitcher />
+                </div>
+              )}
+
               {/* Mobile hamburger */}
               <button
                 type="button"
@@ -176,6 +185,7 @@ export const Header = ({
         brand={brand}
         navLinks={navLinks}
         ctas={ctas}
+        showLocaleSwitcher={showLocaleSwitcher}
       />
     </>
   );

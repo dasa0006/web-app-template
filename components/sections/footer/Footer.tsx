@@ -25,6 +25,12 @@ export interface IFooter {
   columns?: IFooterColumn[];
   socialLinks?: ISocialLink[];
   legalLinks?: IFooterLink[];
+  /**
+   * Extra nodes rendered after legalLinks in the bottom bar.
+   * Use this for client-side actions (e.g. <ManageCookiesButton />)
+   * that can't be expressed as plain href links.
+   */
+  legalExtra?: ReactNode;
   copyright?: string;
   className?: string;
 }
@@ -46,6 +52,7 @@ export const Footer = ({
   columns = [],
   socialLinks = [],
   legalLinks = [],
+  legalExtra,
   copyright,
   className,
 }: IFooter) => {
@@ -110,9 +117,10 @@ export const Footer = ({
           {/* Bottom: legal */}
           <div className="mt-12 flex flex-col items-start gap-4 border-t border-border-subtle pt-8 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs text-text-muted">{copyright}</p>
-            {legalLinks.length > 0 && (
+
+            {(legalLinks.length > 0 || legalExtra) && (
               <nav aria-label="Legal links">
-                <ul className="flex flex-wrap gap-4">
+                <ul className="flex flex-wrap items-center gap-4">
                   {legalLinks.map((link) => (
                     <li key={link.label}>
                       <Link
@@ -123,6 +131,7 @@ export const Footer = ({
                       </Link>
                     </li>
                   ))}
+                  {legalExtra && <li>{legalExtra}</li>}
                 </ul>
               </nav>
             )}

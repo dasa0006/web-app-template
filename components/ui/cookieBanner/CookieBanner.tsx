@@ -1,0 +1,126 @@
+"use client";
+
+import { useConsent } from "@/components/providers/ConsentProvider";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
+// ─── Cookie Icon ──────────────────────────────────────────────────────────────
+
+const CookieIcon = () => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.75"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    className="shrink-0 text-brand-accent"
+  >
+    <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5" />
+    <path d="M8.5 8.5v.01" />
+    <path d="M16 15.5v.01" />
+    <path d="M12 12v.01" />
+  </svg>
+);
+
+// ─── Component ────────────────────────────────────────────────────────────────
+
+export const CookieBanner = () => {
+  const { status, accept, decline } = useConsent();
+  const [mounted, setMounted] = useState(false);
+
+  // Slide in after a short delay — avoids jarring appearance on first paint
+  useEffect(() => {
+    if (status === null) {
+      const t = setTimeout(() => setMounted(true), 400);
+      return () => clearTimeout(t);
+    }
+  }, [status]);
+
+  // Don't render if already decided
+  if (status !== null) return null;
+
+  return (
+    <div
+      role="region"
+      aria-label="Cookie consent"
+      aria-live="polite"
+      className={cn(
+        "fixed bottom-0 left-0 right-0 z-50 px-4 pb-4 md:px-6 md:pb-6",
+        "transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
+        mounted ? "translate-y-0" : "translate-y-[calc(100%+2rem)]"
+      )}
+    >
+      <div
+        className={cn(
+          "mx-auto max-w-3xl",
+          "rounded-card border border-border-default bg-surface-raised",
+          "shadow-lg",
+          "overflow-hidden"
+        )}
+      >
+        {/* Accent stripe */}
+        <div className="h-0.5 w-full bg-linear-to-r from-brand-primary via-brand-secondary to-brand-accent" />
+
+        <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:gap-6 sm:p-4 sm:pl-5">
+          {/* Icon + text */}
+          <div className="flex items-start gap-3 flex-1 min-w-0">
+            <div className="mt-0.5">
+              <CookieIcon />
+            </div>
+            <div className="min-w-0">
+              <p className="text-sm font-semibold text-text-primary leading-snug">
+                We use analytics cookies
+              </p>
+              <p className="mt-1 text-xs leading-relaxed text-text-muted">
+                Vercel Analytics helps us understand how our site is used — no
+                personal data is stored or sold.{" "}
+                <Link
+                  href="/privacy"
+                  className={cn(
+                    "underline underline-offset-2 transition-colors",
+                    "hover:text-text-primary"
+                  )}
+                >
+                  Privacy policy ↗
+                </Link>
+              </p>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+            <button
+              onClick={decline}
+              className={cn(
+                "rounded-lg px-3.5 py-2 text-xs font-medium",
+                "text-text-muted transition-colors",
+                "hover:bg-surface-subtle hover:text-text-primary",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-1"
+              )}
+            >
+              Decline
+            </button>
+            <button
+              onClick={accept}
+              className={cn(
+                "rounded-lg px-4 py-2 text-xs font-semibold",
+                "bg-brand-primary text-text-on-brand",
+                "transition-all duration-150",
+                "hover:bg-brand-primary-hover",
+                "active:scale-[0.98]",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2"
+              )}
+            >
+              Accept cookies
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

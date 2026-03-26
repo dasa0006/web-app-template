@@ -1,4 +1,7 @@
+import { ConsentAnalytics } from "@/components/analytics/ConsentAnalytics";
 import MarketingLayout from "@/components/layouts/MarketingLayout";
+import { ConsentProvider } from "@/components/providers/ConsentProvider";
+import { CookieBanner } from "@/components/ui/cookieBanner/CookieBanner";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
@@ -75,12 +78,10 @@ export default async function RootLayout({
 }>) {
   const { locale } = await params;
 
-  // Validate the locale from the URL segment
   if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
     notFound();
   }
 
-  // Fetch messages server-side and pass to the client provider
   const messages = await getMessages();
 
   return (
@@ -88,9 +89,21 @@ export default async function RootLayout({
       <body
         className={`${fontVariables} antialiased grid grid-rows-[auto_1fr_auto] min-h-screen`}
       >
-        <NextIntlClientProvider messages={messages}>
-          <MarketingLayout>{children}</MarketingLayout>
-        </NextIntlClientProvider>
+        {/*
+         * ConsentProvider wraps everything so both CookieBanner and
+         * ConsentAnalytics share the same consent state without prop drilling.
+         */}
+        <ConsentProvider>
+          <NextIntlClientProvider messages={messages}>
+            <MarketingLayout>{children}</MarketingLayout>
+          </NextIntlClientProvider>
+
+          {/* Only fires Vercel Analytics after the user accepts */}
+          <ConsentAnalytics />
+
+          {/* Slides up on first visit; disappears once a choice is made */}
+          <CookieBanner />
+        </ConsentProvider>
 
         <script
           type="application/ld+json"

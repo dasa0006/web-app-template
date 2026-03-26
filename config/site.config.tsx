@@ -1,8 +1,8 @@
 import { IFooter } from "@/components/sections/footer/Footer";
 import { IHeader } from "@/components/sections/header/Header";
+import { ManageCookiesButton } from "@/components/ui/cookieBanner/ManageCookiesButton";
 
 // ─── Brand ────────────────────────────────────────────────────────────────────
-// Replace with an <Image /> or an imported SVG once you have a real logo.
 
 const Brand = () => (
   <span className="text-lg font-bold tracking-tight text-text-primary">
@@ -35,5 +35,6 @@ export const FOOTER_CONFIG: IFooter = {
     { label: "Privacy", href: "/privacy" },
     { label: "Terms", href: "/terms" },
   ],
+  legalExtra: <ManageCookiesButton />,
   copyright: `© ${new Date().getFullYear()} Acme, Inc. All rights reserved.`,
 };

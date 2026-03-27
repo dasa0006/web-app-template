@@ -2,8 +2,6 @@ import { getRequestConfig } from "next-intl/server";
 import { routing } from "./routing";
 
 export default getRequestConfig(async ({ requestLocale }) => {
-  // requestLocale is provided by the [locale] segment in the URL.
-  // Validate it falls within our supported locales; fall back to the default.
   let locale = await requestLocale;
 
   if (
@@ -13,11 +11,22 @@ export default getRequestConfig(async ({ requestLocale }) => {
     locale = routing.defaultLocale;
   }
 
+  const baseCommon = (await import(`../messages/base/common.json`)).default;
+  const baseLocale = (await import(`../messages/base/${locale}.json`)).default;
+
+  const customCommon = (await import(`../messages/custom/common.json`)).default;
+  const customLocale = (await import(`../messages/custom/${locale}.json`))
+    .default;
+
   return {
     locale,
     messages: {
-      ...(await import(`../messages/common.json`)).default,
-      ...(await import(`../messages/${locale}.json`)).default,
+      ...customCommon,
+      ...customLocale,
+    },
+    fallbackMessages: {
+      ...baseCommon,
+      ...baseLocale,
     },
   };
 });

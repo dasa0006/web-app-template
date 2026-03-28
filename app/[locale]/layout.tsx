@@ -96,13 +96,13 @@ export default async function RootLayout({
         <ConsentProvider>
           <NextIntlClientProvider messages={messages}>
             <MarketingLayout>{children}</MarketingLayout>
+
+            {/* Only fires Vercel Analytics after the user accepts */}
+            <ConsentAnalytics />
+
+            {/* Slides up on first visit; disappears once a choice is made */}
+            <CookieBanner />
           </NextIntlClientProvider>
-
-          {/* Only fires Vercel Analytics after the user accepts */}
-          <ConsentAnalytics />
-
-          {/* Slides up on first visit; disappears once a choice is made */}
-          <CookieBanner />
         </ConsentProvider>
 
         <script

@@ -23,8 +23,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
     messages: {
       ...customCommon,
       ...customLocale,
-    },
-    fallbackMessages: {
       ...baseCommon,
       ...baseLocale,
     },

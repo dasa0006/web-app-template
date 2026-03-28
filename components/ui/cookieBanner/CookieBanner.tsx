@@ -2,6 +2,7 @@
 
 import { useConsent } from "@/components/providers/ConsentProvider";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -30,6 +31,8 @@ const CookieIcon = () => (
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export const CookieBanner = () => {
+  const t = useTranslations("CookieBanner");
+
   const { status, accept, decline } = useConsent();
   const [mounted, setMounted] = useState(false);
 
@@ -47,7 +50,7 @@ export const CookieBanner = () => {
   return (
     <div
       role="region"
-      aria-label="Cookie consent"
+      aria-label={t("ariaLabel")}
       aria-live="polite"
       className={cn(
         "fixed bottom-0 left-0 right-0 z-50 px-4 pb-4 md:px-6 md:pb-6",
@@ -74,20 +77,20 @@ export const CookieBanner = () => {
             </div>
             <div className="min-w-0">
               <p className="text-sm font-semibold text-text-primary leading-snug">
-                We use analytics cookies
+                {t("title")}
               </p>
               <p className="mt-1 text-xs leading-relaxed text-text-muted">
-                Vercel Analytics helps us understand how our site is used — no
-                personal data is stored or sold.{" "}
-                <Link
-                  href="/privacy"
-                  className={cn(
-                    "underline underline-offset-2 transition-colors",
-                    "hover:text-text-primary"
-                  )}
-                >
-                  Privacy policy ↗
-                </Link>
+                {/* Rich text rendering for the description with a link */}
+                {t.rich("description", {
+                  privacyLink: (chunks) => (
+                    <Link
+                      href="/privacy"
+                      className="underline underline-offset-2 transition-colors hover:text-text-primary"
+                    >
+                      {chunks}
+                    </Link>
+                  ),
+                })}
               </p>
             </div>
           </div>
@@ -103,7 +106,7 @@ export const CookieBanner = () => {
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-1"
               )}
             >
-              Decline
+              {t("declineButton")}
             </button>
             <button
               onClick={accept}
@@ -116,7 +119,7 @@ export const CookieBanner = () => {
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2"
               )}
             >
-              Accept cookies
+              {t("acceptButton")}
             </button>
           </div>
         </div>

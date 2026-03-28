@@ -1,1 +1,9 @@
-{}
+{
+  "CookieBanner": {
+    "ariaLabel": "Cookie samtykke",
+    "title": "Vi bruge analytiske cookies",
+    "description": "Vercel Analytics hjælper os med at forstå hvordan vores hjemmeside bliver brugt - ingen personlig data bliver gemt eller solgt. <privacyLink>Privatlivspolitik ↗</privacyLink>",
+    "acceptButton": "Accepter cookies",
+    "declineButton": "Afvis cookies"
+  }
+}

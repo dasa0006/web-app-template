@@ -5,5 +5,10 @@
     "description": "Vercel Analytics hjælper os med at forstå hvordan vores hjemmeside bliver brugt - ingen personlig data bliver gemt eller solgt. <privacyLink>Privatlivspolitik ↗</privacyLink>",
     "acceptButton": "Accepter cookies",
     "declineButton": "Afvis cookies"
+  },
+  "NotFound": {
+    "title": "Side ikke fundet",
+    "description": "Siden du leder efter findes ikke eller er blevet flyttet.",
+    "backHome": "Gå tilbage til forsiden"
   }
 }

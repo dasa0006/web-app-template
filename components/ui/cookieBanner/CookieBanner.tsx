@@ -1,9 +1,9 @@
 "use client";
 
 import { useConsent } from "@/components/providers/ConsentProvider";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 // ─── Cookie Icon ──────────────────────────────────────────────────────────────

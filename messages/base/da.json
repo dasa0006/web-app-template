@@ -10,5 +10,12 @@
     "title": "Side ikke fundet",
     "description": "Siden du leder efter findes ikke eller er blevet flyttet.",
     "backHome": "Gå tilbage til forsiden"
+  },
+  "Error": {
+    "title": "Noget gik galt",
+    "description": "Vi stødte på en uventet fejl. Prøv venligst igen, eller gå tilbage til forsiden.",
+    "tryAgain": "Prøv igen",
+    "backHome": "Gå tilbage til forsiden",
+    "reference": "Fejl reference"
   }
 }

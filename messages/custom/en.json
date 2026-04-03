@@ -1,1 +1,20 @@
-{}
+{
+  "header": {
+    "nav": {
+      "product": "Product",
+      "pricing": "Pricing",
+      "docs": "Docs"
+    },
+    "ctas": {
+      "signIn": "Sign in",
+      "getStarted": "Get started"
+    }
+  },
+  "footer": {
+    "tagline": "One clear sentence describing what the product does.",
+    "legal": {
+      "privacy": "Privacy",
+      "terms": "Terms"
+    }
+  }
+}

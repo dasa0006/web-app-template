@@ -15,13 +15,13 @@ const Brand = () => (
 export const HEADER_CONFIG: IHeader = {
   brand: <Brand />,
   navLinks: [
-    { label: "Product", href: "/product" },
-    { label: "Pricing", href: "/pricing" },
-    { label: "Docs", href: "/docs" },
+    { label: "nav.product", href: "/product" },
+    { label: "nav.pricing", href: "/pricing" },
+    { label: "nav.docs", href: "/docs" },
   ],
   ctas: [
-    { label: "Sign in", href: "/login", variant: "secondary" },
-    { label: "Get started", href: "/signup", variant: "primary" },
+    { label: "ctas.signIn", href: "/login", variant: "secondary" },
+    { label: "ctas.getStarted", href: "/signup", variant: "primary" },
   ],
   variant: "solid",
 };
@@ -30,10 +30,10 @@ export const HEADER_CONFIG: IHeader = {
 
 export const FOOTER_CONFIG: IFooter = {
   brand: <Brand />,
-  tagline: "One clear sentence describing what the product does.",
+  tagline: "tagline",
   legalLinks: [
-    { label: "Privacy", href: "/privacy" },
-    { label: "Terms", href: "/terms" },
+    { label: "legal.privacy", href: "/privacy" },
+    { label: "legal.terms", href: "/terms" },
   ],
   legalExtra: <ManageCookiesButton />,
   copyright: `© ${new Date().getFullYear()} Acme, Inc. All rights reserved.`,

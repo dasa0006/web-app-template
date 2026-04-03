@@ -1,6 +1,7 @@
 import { MaxWidthWrapper } from "@/components/ui/maxWidthWrapper/MaxWidthWrapper";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import { ReactNode } from "react";
 
 export interface IFooterLink {
@@ -56,6 +57,8 @@ export const Footer = ({
   copyright,
   className,
 }: IFooter) => {
+  const t = useTranslations("footer");
+
   return (
     <footer
       className={cn(
@@ -80,7 +83,7 @@ export const Footer = ({
               <div>{brand}</div>
               {tagline && (
                 <p className="max-w-xs text-sm leading-relaxed text-text-muted">
-                  {tagline}
+                  {t(tagline)}
                 </p>
               )}
               {socialLinks.length > 0 && (
@@ -127,7 +130,7 @@ export const Footer = ({
                         href={link.href}
                         className="text-xs text-text-muted transition-colors duration-200 hover:text-text-primary"
                       >
-                        {link.label}
+                        {t(link.label)}
                       </Link>
                     </li>
                   ))}

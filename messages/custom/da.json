@@ -1,1 +1,20 @@
-{}
+{
+  "header": {
+    "nav": {
+      "product": "Produkter",
+      "pricing": "Priser",
+      "docs": "Dokumentation"
+    },
+    "ctas": {
+      "signIn": "Log ind",
+      "getStarted": "Kom igang"
+    }
+  },
+  "footer": {
+    "tagline": "Én klar sætning der beskriver, hvad produktet gør.",
+    "legal": {
+      "privacy": "Privatlivspolitik",
+      "terms": "Vilkår"
+    }
+  }
+}

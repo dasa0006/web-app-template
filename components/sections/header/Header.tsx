@@ -1,5 +1,6 @@
 "use client";
 
+import Brand from "@/components/brand/Brand";
 import { LocaleSwitcher } from "@/components/ui/localeSwitcher/LocaleSwitcher";
 import { MaxWidthWrapper } from "@/components/ui/maxWidthWrapper/MaxWidthWrapper";
 import MobileDrawer from "@/components/ui/mobileDrawer/MobileDrawer";
@@ -8,7 +9,7 @@ import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -26,8 +27,6 @@ export interface IHeaderCTA {
 export type HeaderVariant = "solid" | "transparent";
 
 export interface IHeader {
-  /** Brand mark — pass a logo image or a styled wordmark span */
-  brand: ReactNode;
   navLinks?: INavLink[];
   ctas?: IHeaderCTA[];
   /**
@@ -74,7 +73,6 @@ const MenuIcon = () => (
 // ─── Header ───────────────────────────────────────────────────────────────────
 
 export const Header = ({
-  brand,
   navLinks = [],
   ctas = [],
   variant = "solid",
@@ -115,7 +113,7 @@ export const Header = ({
               aria-label="Go to homepage"
               className="shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2 rounded-md"
             >
-              {brand}
+              <Brand />
             </Link>
 
             {/* Desktop nav */}
@@ -185,7 +183,6 @@ export const Header = ({
       <MobileDrawer
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        brand={brand}
         navLinks={navLinks}
         ctas={ctas}
         showLocaleSwitcher={showLocaleSwitcher}

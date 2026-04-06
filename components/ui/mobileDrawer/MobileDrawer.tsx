@@ -1,3 +1,4 @@
+import Brand from "@/components/brand/Brand";
 import {
   IHeaderCTA,
   INavLink,
@@ -7,7 +8,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { ReactNode, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { LocaleSwitcher } from "../localeSwitcher/LocaleSwitcher";
 
 const CloseIcon = () => (
@@ -31,7 +32,6 @@ const CloseIcon = () => (
 interface DrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  brand: ReactNode;
   navLinks: INavLink[];
   ctas: IHeaderCTA[];
   showLocaleSwitcher?: boolean; // ← new flag
@@ -40,7 +40,7 @@ interface DrawerProps {
 const MobileDrawer = ({
   isOpen,
   onClose,
-  brand,
+
   navLinks,
   ctas,
   showLocaleSwitcher,
@@ -101,7 +101,9 @@ const MobileDrawer = ({
       >
         {/* Drawer header */}
         <div className="flex items-center justify-between border-b border-border-subtle px-5 py-4">
-          <div>{brand}</div>
+          <div>
+            <Brand />
+          </div>
           <button
             ref={closeButtonRef}
             onClick={onClose}

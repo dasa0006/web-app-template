@@ -1,3 +1,5 @@
+import Brand from "@/components/brand/Brand";
+import { ManageCookiesButton } from "@/components/ui/cookieBanner/ManageCookiesButton";
 import { MaxWidthWrapper } from "@/components/ui/maxWidthWrapper/MaxWidthWrapper";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -21,17 +23,10 @@ export interface ISocialLink {
 }
 
 export interface IFooter {
-  brand: ReactNode;
   tagline?: string;
   columns?: IFooterColumn[];
   socialLinks?: ISocialLink[];
   legalLinks?: IFooterLink[];
-  /**
-   * Extra nodes rendered after legalLinks in the bottom bar.
-   * Use this for client-side actions (e.g. <ManageCookiesButton />)
-   * that can't be expressed as plain href links.
-   */
-  legalExtra?: ReactNode;
   copyright?: string;
   className?: string;
 }
@@ -48,12 +43,10 @@ const FooterLinkItem = ({ label, href }: IFooterLink) => (
 );
 
 export const Footer = ({
-  brand,
   tagline,
   columns = [],
   socialLinks = [],
   legalLinks = [],
-  legalExtra,
   copyright,
   className,
 }: IFooter) => {
@@ -80,7 +73,9 @@ export const Footer = ({
           >
             {/* Brand block */}
             <div className="col-span-2 flex flex-col gap-4 md:col-span-1">
-              <div>{brand}</div>
+              <div>
+                <Brand />
+              </div>
               {tagline && (
                 <p className="max-w-xs text-sm leading-relaxed text-text-muted">
                   {t(tagline)}
@@ -121,7 +116,7 @@ export const Footer = ({
           <div className="mt-12 flex flex-col items-start gap-4 border-t border-border-subtle pt-8 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs text-text-muted">{copyright}</p>
 
-            {(legalLinks.length > 0 || legalExtra) && (
+            {legalLinks.length > 0 && (
               <nav aria-label="Legal links">
                 <ul className="flex flex-wrap items-center gap-4">
                   {legalLinks.map((link) => (
@@ -134,7 +129,7 @@ export const Footer = ({
                       </Link>
                     </li>
                   ))}
-                  {legalExtra && <li>{legalExtra}</li>}
+                  <ManageCookiesButton />
                 </ul>
               </nav>
             )}

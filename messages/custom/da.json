@@ -16,5 +16,57 @@
       "privacy": "Privatlivspolitik",
       "terms": "Vilkår"
     }
+  },
+  "HomePage": {
+    "hero": {
+      "eyebrow": "Nu i offentlig beta",
+      "heading": "Platformen bygget til teams, der leverer.",
+      "subheading": "Stop med at lappe værktøjer sammen. Alt hvad dit team behøver ét sted."
+    },
+    "featureGrid": {
+      "eyebrow": "Hvorfor teams vælger os",
+      "heading": "Alt det du har brug for. Intet af det du ikke har.",
+      "subheading": "Bygget til hvordan moderne teams rent faktisk arbejder – hurtigt, kollaborativt og distribueret.",
+      "features": [
+        {
+          "type": "speed",
+          "title": "Øjeblikkelig udrulning",
+          "description": "Push til main og udgiv på få sekunder. Nul nedetid, nul konfiguration. Vi håndterer din pipeline."
+        },
+        {
+          "type": "security",
+          "title": "Sikkerhed i enterprise-klasse",
+          "description": "SOC 2 Type II, SSO, audit-logs og rollebaseret adgang – sikkerhed der skalerer med dig."
+        },
+        {
+          "type": "integration",
+          "title": "150+ integrationer",
+          "description": "Forbind til de værktøjer, I allerede bruger. GitHub, Slack, Jira, Linear – det hele med ét klik."
+        },
+        {
+          "type": "analytics",
+          "title": "Realtids-analyse",
+          "description": "Forstå hvad der sker, i det øjeblik det sker. Dashboards der rent faktisk giver svar."
+        },
+        {
+          "type": "team",
+          "title": "Bygget til teams",
+          "description": "Rettigheder, workspaces og samarbejdsværktøjer designet til teams fra 2 til 2.000 personer."
+        },
+        {
+          "type": "global",
+          "title": "Global infrastruktur",
+          "description": "Udrullet på tværs af mere end 30 regioner. Responstider på under 100ms for brugere, uanset hvor de er."
+        }
+      ]
+    },
+    "cta": {
+      "heading": "Klar til at udgive hurtigere?",
+      "subheading": "Slut dig til de over 10.000 teams, der allerede bruger platformen.",
+      "buttons": {
+        "primary": "Start gratis",
+        "secondary": "Book en demo"
+      }
+    }
   }
 }

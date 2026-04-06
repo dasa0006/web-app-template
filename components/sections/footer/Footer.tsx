@@ -3,7 +3,6 @@ import { ManageCookiesButton } from "@/components/ui/cookieBanner/ManageCookiesB
 import { MaxWidthWrapper } from "@/components/ui/maxWidthWrapper/MaxWidthWrapper";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
 import { ReactNode } from "react";
 
 export interface IFooterLink {
@@ -50,8 +49,6 @@ export const Footer = ({
   copyright,
   className,
 }: IFooter) => {
-  const t = useTranslations("footer");
-
   return (
     <footer
       className={cn(
@@ -78,7 +75,7 @@ export const Footer = ({
               </div>
               {tagline && (
                 <p className="max-w-xs text-sm leading-relaxed text-text-muted">
-                  {t(tagline)}
+                  {tagline}
                 </p>
               )}
               {socialLinks.length > 0 && (
@@ -125,7 +122,7 @@ export const Footer = ({
                         href={link.href}
                         className="text-xs text-text-muted transition-colors duration-200 hover:text-text-primary"
                       >
-                        {t(link.label)}
+                        {link.label}
                       </Link>
                     </li>
                   ))}

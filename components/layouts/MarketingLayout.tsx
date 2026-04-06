@@ -1,19 +1,24 @@
-import { FOOTER_CONFIG, HEADER_CONFIG } from "@/config/site.config";
 import { ReactNode } from "react";
-import { Footer } from "../sections/footer/Footer";
-import { Header } from "../sections/header/Header";
+import { Footer, type IFooter } from "../sections/footer/Footer";
+import { Header, type IHeader } from "../sections/header/Header";
 
 interface IMarketingLayout {
   children: ReactNode;
+  header: IHeader;
+  footer: IFooter;
 }
 
-const MarketingLayout = ({ children }: IMarketingLayout) => {
+const MarketingLayout = async ({
+  children,
+  header,
+  footer,
+}: IMarketingLayout) => {
   return (
-    <>
-      <Header {...HEADER_CONFIG} />
-      <main>{children}</main>
-      <Footer {...FOOTER_CONFIG} />
-    </>
+    <div className="flex min-h-screen flex-col">
+      <Header {...header} />
+      <main className="flex-1">{children}</main>
+      <Footer {...footer} />
+    </div>
   );
 };
 

@@ -7,7 +7,6 @@ import MobileDrawer from "@/components/ui/mobileDrawer/MobileDrawer";
 import { useScrolled } from "@/hooks/useScrolled";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
 
 import { useState } from "react";
 
@@ -79,8 +78,6 @@ export const Header = ({
   showLocaleSwitcher,
   className,
 }: IHeader) => {
-  const t = useTranslations("header");
-
   const [drawerOpen, setDrawerOpen] = useState(false);
   const scrolled = useScrolled();
 
@@ -129,7 +126,7 @@ export const Header = ({
                         href={link.href}
                         className="rounded-lg px-3 py-2 text-sm font-medium text-text-secondary transition-colors duration-150 hover:bg-surface-subtle hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus"
                       >
-                        {t(link.label)}
+                        {link.label}
                       </Link>
                     </li>
                   ))}
@@ -151,7 +148,7 @@ export const Header = ({
                         ctaVariants[cta.variant ?? "primary"]
                       )}
                     >
-                      {t(cta.label)}
+                      {cta.label}
                     </Link>
                   ))}
                 </div>

@@ -2,6 +2,7 @@ import { ConsentAnalytics } from "@/components/analytics/ConsentAnalytics";
 import MarketingLayout from "@/components/layouts/MarketingLayout";
 import { ConsentProvider } from "@/components/providers/ConsentProvider";
 import { CookieBanner } from "@/components/ui/cookieBanner/CookieBanner";
+import { getMarketingLayoutProps } from "@/lib/server/layout";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
@@ -83,6 +84,7 @@ export default async function RootLayout({
   }
 
   const messages = await getMessages();
+  const marketingLayoutProps = await getMarketingLayoutProps();
 
   return (
     <html lang={locale}>
@@ -95,7 +97,9 @@ export default async function RootLayout({
          */}
         <ConsentProvider>
           <NextIntlClientProvider messages={messages}>
-            <MarketingLayout>{children}</MarketingLayout>
+            <MarketingLayout {...marketingLayoutProps}>
+              {children}
+            </MarketingLayout>
 
             {/* Only fires Vercel Analytics after the user accepts */}
             <ConsentAnalytics />

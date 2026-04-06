@@ -6,7 +6,6 @@ import {
   ctaVariants,
 } from "@/components/sections/header/Header";
 import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { LocaleSwitcher } from "../localeSwitcher/LocaleSwitcher";
@@ -45,8 +44,6 @@ const MobileDrawer = ({
   ctas,
   showLocaleSwitcher,
 }: DrawerProps) => {
-  const t = useTranslations("header");
-
   const panelRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -127,7 +124,7 @@ const MobileDrawer = ({
                   onClick={onClose}
                   className="flex items-center rounded-xl px-3 py-3 text-base font-medium text-text-secondary transition-colors duration-150 hover:bg-surface-subtle hover:text-text-primary"
                 >
-                  {t(link.label)}
+                  {link.label}
                 </Link>
               </li>
             ))}
@@ -151,7 +148,7 @@ const MobileDrawer = ({
                     ctaVariants[cta.variant ?? "primary"]
                   )}
                 >
-                  {t(cta.label)}
+                  {cta.label}
                 </Link>
               ))}
             </div>

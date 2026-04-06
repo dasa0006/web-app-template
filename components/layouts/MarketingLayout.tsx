@@ -8,11 +8,7 @@ interface IMarketingLayout {
   footer: IFooter;
 }
 
-const MarketingLayout = async ({
-  children,
-  header,
-  footer,
-}: IMarketingLayout) => {
+const MarketingLayout = ({ children, header, footer }: IMarketingLayout) => {
   return (
     <div className="flex min-h-screen flex-col">
       <Header {...header} />

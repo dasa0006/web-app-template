@@ -11,20 +11,15 @@ export default getRequestConfig(async ({ requestLocale }) => {
     locale = routing.defaultLocale;
   }
 
-  const baseCommon = (await import(`../messages/base/common.json`)).default;
   const baseLocale = (await import(`../messages/base/${locale}.json`)).default;
-
-  const customCommon = (await import(`../messages/custom/common.json`)).default;
   const customLocale = (await import(`../messages/custom/${locale}.json`))
     .default;
 
   return {
     locale,
     messages: {
-      ...customCommon,
-      ...customLocale,
-      ...baseCommon,
       ...baseLocale,
+      ...customLocale,
     },
   };
 });

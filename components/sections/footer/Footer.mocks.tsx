@@ -18,14 +18,7 @@ const LinkedInIcon = () => (
   </svg>
 );
 
-const Brand = () => (
-  <span className="text-lg font-bold tracking-tight text-zinc-900">
-    Acme<span className="text-amber-500">.</span>
-  </span>
-);
-
 const base: IFooter = {
-  brand: <Brand />,
   tagline:
     "The platform for teams that ship. Fast deployments, real-time analytics, and 150+ integrations.",
   socialLinks: [
@@ -76,7 +69,6 @@ const base: IFooter = {
 export const mockFooterProps = base;
 
 export const mockFooterMinimal: IFooter = {
-  brand: <Brand />,
   copyright: `© ${new Date().getFullYear()} Acme, Inc.`,
   legalLinks: [
     { label: "Privacy", href: "#" },

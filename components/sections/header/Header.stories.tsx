@@ -56,7 +56,6 @@ export const NavOnly: Story = {
  * Resize the viewport to test the mobile drawer.
  */
 export const WithHero: Story = {
-  args: { brand: "brand" },
   render: () => (
     <div className="min-h-[200vh]">
       <Header {...mockHeaderProps} />
@@ -66,7 +65,6 @@ export const WithHero: Story = {
 };
 
 export const TransparentWithHero: Story = {
-  args: { brand: "brand" },
   render: () => (
     <div className="min-h-[200vh]">
       <Header {...mockHeaderTransparent} />

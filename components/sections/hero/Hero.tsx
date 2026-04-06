@@ -1,6 +1,7 @@
 import { Section } from "@/components/sections/section/Section";
 import { Heading } from "@/components/ui/heading/Heading";
 import { MaxWidthWrapper } from "@/components/ui/maxWidthWrapper/MaxWidthWrapper";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
 
@@ -92,13 +93,13 @@ export const Hero = ({
               )}
             >
               {ctas.map((cta) => (
-                <a
+                <Link
                   key={cta.label}
                   href={cta.href}
                   className={cn(ctaBase, ctaVariants[cta.variant ?? "primary"])}
                 >
                   {cta.label}
-                </a>
+                </Link>
               ))}
             </div>
           )}

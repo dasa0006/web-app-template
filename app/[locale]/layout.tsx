@@ -6,6 +6,7 @@ import { getMarketingLayoutProps } from "@/lib/server/layout";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import "../../app/globals.css";
 import { routing } from "../../i18n/routing";
@@ -83,6 +84,9 @@ export default async function RootLayout({
     notFound();
   }
 
+  // Extract nonce from middleware header
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
+
   const messages = await getMessages();
   const marketingLayoutProps = await getMarketingLayoutProps();
 
@@ -91,31 +95,28 @@ export default async function RootLayout({
       <body
         className={`${fontVariables} antialiased grid grid-rows-[auto_1fr_auto] min-h-screen`}
       >
-        {/*
-         * ConsentProvider wraps everything so both CookieBanner and
-         * ConsentAnalytics share the same consent state without prop drilling.
-         */}
         <ConsentProvider>
           <NextIntlClientProvider messages={messages}>
             <MarketingLayout {...marketingLayoutProps}>
               {children}
             </MarketingLayout>
-
-            {/* Only fires Vercel Analytics after the user accepts */}
             <ConsentAnalytics />
-
-            {/* Slides up on first visit; disappears once a choice is made */}
             <CookieBanner />
           </NextIntlClientProvider>
         </ConsentProvider>
 
+        {/* Apply nonce to inline scripts */}
         <script
+          nonce={nonce}
+          suppressHydrationWarning
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(buildOrganizationSchema()),
           }}
         />
         <script
+          nonce={nonce}
+          suppressHydrationWarning
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(buildWebsiteSchema()),

@@ -1,10 +1,8 @@
 import { AbstractIntlMessages } from "next-intl";
-import baseCommon from "../messages/base/common.json";
-import baseEn from "../messages/base/en.json";
 import baseDa from "../messages/base/da.json";
-import customCommon from "../messages/custom/common.json";
-import customEn from "../messages/custom/en.json";
+import baseEn from "../messages/base/en.json";
 import customDa from "../messages/custom/da.json";
+import customEn from "../messages/custom/en.json";
 
 const routing = {
   locales: ["en", "da"] as const,
@@ -21,15 +19,13 @@ const baseMessages: Record<Locale, Messages> = {
 };
 
 const customMessages: Record<Locale, Messages> = {
-  en: customEn as Messages,
-  da: customDa as Messages,
+  en: customEn as unknown as Messages,
+  da: customDa as unknown as Messages,
 };
 
 // Factory function to merge messages per locale
 const createMessages = (locale: Locale): Messages => ({
-  ...(baseCommon as Messages),
   ...baseMessages[locale],
-  ...(customCommon as Messages),
   ...customMessages[locale],
 });
 

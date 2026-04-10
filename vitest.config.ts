@@ -13,6 +13,10 @@ export default defineConfig({
     globals: true,
     setupFiles: ["./vitest.setup.ts"],
     include: ["**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
-    exclude: ["**/.storybook/**", "**/*.stories.?(m)[jt]s?(x)"],
+    exclude: [
+      "**/.storybook/**",
+      "**/*.stories.?(m)[jt]s?(x)",
+      "**/node_modules/**",
+    ],
   },
 });

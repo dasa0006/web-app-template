@@ -7,6 +7,7 @@ import MobileDrawer from "@/components/ui/mobileDrawer/MobileDrawer";
 import { useScrolled } from "@/hooks/useScrolled";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { Menu } from "lucide-react";
 
 import { useState } from "react";
 
@@ -49,25 +50,6 @@ export const ctaVariants: Record<NonNullable<IHeaderCTA["variant"]>, string> = {
   secondary:
     "border border-border-default text-text-secondary hover:bg-surface-subtle hover:border-border-strong focus-visible:ring-border-focus",
 };
-
-// ─── Icons ────────────────────────────────────────────────────────────────────
-
-const MenuIcon = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    aria-hidden="true"
-  >
-    <line x1="3" y1="6" x2="21" y2="6" />
-    <line x1="3" y1="12" x2="21" y2="12" />
-    <line x1="3" y1="18" x2="21" y2="18" />
-  </svg>
-);
 
 // ─── Header ───────────────────────────────────────────────────────────────────
 
@@ -169,7 +151,7 @@ export const Header = ({
                 onClick={() => setDrawerOpen(true)}
                 className="flex h-9 w-9 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-surface-subtle hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus md:hidden"
               >
-                <MenuIcon />
+                <Menu />
               </button>
             </div>
           </div>

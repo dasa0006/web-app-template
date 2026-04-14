@@ -1,11 +1,11 @@
 import {
-  BoltIcon,
-  ChartIcon,
+  ChartLine,
   GlobeIcon,
   PuzzleIcon,
   ShieldIcon,
   UsersIcon,
-} from "@/components/icons";
+  Zap,
+} from "lucide-react";
 import { IFeatureGrid } from "./FeatureGrid";
 
 const base: IFeatureGrid = {
@@ -16,7 +16,7 @@ const base: IFeatureGrid = {
   columns: 3,
   features: [
     {
-      icon: <BoltIcon />,
+      icon: <Zap />,
       title: "Instant deployments",
       description:
         "Push to main and ship in seconds. Zero downtime, zero config. Your pipeline, handled.",
@@ -34,7 +34,7 @@ const base: IFeatureGrid = {
         "Connect to the tools you already use. GitHub, Slack, Jira, Linear — all in one click.",
     },
     {
-      icon: <ChartIcon />,
+      icon: <ChartLine />,
       title: "Real-time analytics",
       description:
         "Understand what's happening the moment it happens. Dashboards that actually answer questions.",

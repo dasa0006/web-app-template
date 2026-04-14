@@ -1,17 +1,21 @@
 import {
-  BoltIcon,
-  ChartIcon,
+  ChartLine,
   GlobeIcon,
+  Menu,
   PuzzleIcon,
   ShieldIcon,
   UsersIcon,
-} from "@/components/icons";
+  X,
+  Zap,
+} from "lucide-react";
 
 export const ICON_MAP = {
-  speed: <BoltIcon aria-hidden="true" />,
+  menu: <Menu />,
+  menuClose: <X />,
+  speed: <Zap aria-hidden="true" />,
   security: <ShieldIcon aria-hidden="true" />,
   integration: <PuzzleIcon aria-hidden="true" />,
-  analytics: <ChartIcon aria-hidden="true" />,
+  analytics: <ChartLine aria-hidden="true" />,
   team: <UsersIcon aria-hidden="true" />,
   global: <GlobeIcon aria-hidden="true" />,
 } as const;

@@ -6,25 +6,10 @@ import {
   ctaVariants,
 } from "@/components/sections/header/Header";
 import { cn } from "@/lib/utils";
+import { X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { LocaleSwitcher } from "../localeSwitcher/LocaleSwitcher";
-
-const CloseIcon = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    aria-hidden="true"
-  >
-    <line x1="18" y1="6" x2="6" y2="18" />
-    <line x1="6" y1="6" x2="18" y2="18" />
-  </svg>
-);
 
 // ─── Mobile Drawer ────────────────────────────────────────────────────────────
 
@@ -107,7 +92,7 @@ const MobileDrawer = ({
             aria-label="Close navigation menu"
             className="flex h-9 w-9 items-center justify-center rounded-lg text-text-muted transition-colors hover:bg-surface-subtle hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus"
           >
-            <CloseIcon />
+            <X />
           </button>
         </div>
 

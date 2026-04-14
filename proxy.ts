@@ -1,3 +1,6 @@
+// Note: The middleware file convention is deprecated and has been renamed to proxy.
+// See https://nextjs.org/docs/app/api-reference/file-conventions/proxy#migration-to-proxy for more details.
+
 import { randomBytes } from "crypto";
 import createMiddleware from "next-intl/middleware";
 import { NextRequest } from "next/server";

@@ -1,5 +1,6 @@
 import { describe, expect, test } from "vitest";
-import { EVENTS, ROUTES } from "./events";
+import { EVENTS } from "./events";
+import { ROUTES } from "./routes";
 
 describe("EVENTS integrity", () => {
   const routeValues = Object.values(ROUTES);

@@ -1,8 +1,7 @@
-// proxy.ts
+import { randomBytes } from "crypto";
 import createMiddleware from "next-intl/middleware";
 import { NextRequest } from "next/server";
 import { routing } from "./i18n/routing";
-import { randomBytes } from "crypto";
 
 const intlMiddleware = createMiddleware(routing);
 
@@ -14,19 +13,25 @@ function generateNonce(): string {
 export default function middleware(request: NextRequest) {
   const nonce = generateNonce();
   const response = intlMiddleware(request);
-  
+
   // Security headers
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
-  response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
-  
+  response.headers.set(
+    "Permissions-Policy",
+    "camera=(), microphone=(), geolocation=()"
+  );
+
   if (process.env.NODE_ENV === "production") {
     response.headers.set(
       "Strict-Transport-Security",
       "max-age=31536000; includeSubDomains"
     );
   }
+
+  // Set env vars to 'production' on deployment
+  const isProd = process.env.NODE_ENV === "production";
 
   // CSP with nonce
   const csp = `
@@ -41,14 +46,16 @@ export default function middleware(request: NextRequest) {
     base-uri 'self';
     form-action 'self';
     frame-ancestors 'none';
-    upgrade-insecure-requests;
-  `.replace(/\s+/g, " ").trim();
+    ${isProd ? "upgrade-insecure-requests;" : ""}
+  `
+    .replace(/\s+/g, " ")
+    .trim();
 
   response.headers.set("Content-Security-Policy", csp);
-  
+
   // Pass nonce to layout via custom header
   response.headers.set("x-nonce", nonce);
-  
+
   return response;
 }
 

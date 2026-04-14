@@ -2,20 +2,20 @@ import { ConsentAnalytics } from "@/components/analytics/ConsentAnalytics";
 import MarketingLayout from "@/components/layouts/MarketingLayout";
 import { ConsentProvider } from "@/components/providers/ConsentProvider";
 import { CookieBanner } from "@/components/ui/cookieBanner/CookieBanner";
+import { routing } from "@/i18n/routing";
+import { fontVariables } from "@/lib/fonts";
+import {
+  SITE_CONFIG,
+  buildOrganizationSchema,
+  buildWebsiteSchema,
+} from "@/lib/seo";
 import { getMarketingLayoutProps } from "@/lib/server/layout";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
-import "../../app/globals.css";
-import { routing } from "../../i18n/routing";
-import { fontVariables } from "../../lib/fonts";
-import {
-  SITE_CONFIG,
-  buildOrganizationSchema,
-  buildWebsiteSchema,
-} from "../../lib/seo";
+import "../globals.css";
 
 // ─────────────────────────────────────────────
 // Statically generate a route for each locale
@@ -92,9 +92,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
-      <body
-        className={`${fontVariables} antialiased`}
-      >
+      <body className={`${fontVariables} antialiased`}>
         <ConsentProvider>
           <NextIntlClientProvider messages={messages}>
             <MarketingLayout {...marketingLayoutProps}>

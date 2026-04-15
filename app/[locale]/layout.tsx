@@ -10,10 +10,10 @@ import {
   buildWebsiteSchema,
 } from "@/lib/seo";
 import { getMarketingLayoutProps } from "@/lib/server/layout";
+import { validateLocale } from "@/lib/validation";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
-import { notFound } from "next/navigation";
 import "../globals.css";
 
 // ─────────────────────────────────────────────
@@ -79,9 +79,7 @@ export default async function RootLayout({
 }>) {
   const { locale } = await params;
 
-  if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
-    notFound();
-  }
+  validateLocale(locale);
 
   const messages = await getMessages();
   const marketingLayoutProps = await getMarketingLayoutProps();

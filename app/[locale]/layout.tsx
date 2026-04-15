@@ -1,12 +1,9 @@
 import MarketingLayout from "@/components/layouts/MarketingLayout";
 import { AppProviders } from "@/components/providers/AppProviders";
+import { JsonLdScripts } from "@/components/seo/JsonLdScripts";
 import { Locale, routing } from "@/i18n/routing";
 import { fontVariables } from "@/lib/fonts";
-import {
-  SITE_CONFIG,
-  buildOrganizationSchema,
-  buildWebsiteSchema,
-} from "@/lib/seo";
+import { SITE_CONFIG } from "@/lib/seo";
 import { getMarketingLayoutProps } from "@/lib/server/layout";
 import { validateLocale } from "@/lib/validation";
 import type { Metadata } from "next";
@@ -90,20 +87,7 @@ export default async function RootLayout({
           </MarketingLayout>
         </AppProviders>
 
-        <script
-          suppressHydrationWarning
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(buildOrganizationSchema()),
-          }}
-        />
-        <script
-          suppressHydrationWarning
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(buildWebsiteSchema()),
-          }}
-        />
+        <JsonLdScripts />
       </body>
     </html>
   );

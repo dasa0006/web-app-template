@@ -32,7 +32,7 @@ export default function middleware(request: NextRequest) {
 
   // ── Content-Security-Policy (CSP) ─────────────────────────────────────────
   const isProd = process.env.NODE_ENV === "production";
-  
+
   // In development, allow 'unsafe-inline' for Turbopack/HMR scripts
   // In production, rely on strict hashes for JSON-LD
   const scriptSrc = isProd
@@ -62,5 +62,5 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon\\.ico|.*\\..*).*)"],
 };

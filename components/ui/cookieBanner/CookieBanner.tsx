@@ -39,8 +39,8 @@ export const CookieBanner = () => {
   // Slide in after a short delay — avoids jarring appearance on first paint
   useEffect(() => {
     if (status === null) {
-      const t = setTimeout(() => setMounted(true), 400);
-      return () => clearTimeout(t);
+      const timerId = setTimeout(() => setMounted(true), 400);
+      return () => clearTimeout(timerId);
     }
   }, [status]);
 

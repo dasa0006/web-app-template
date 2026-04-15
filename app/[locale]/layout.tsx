@@ -1,8 +1,6 @@
-import { ConsentAnalytics } from "@/components/analytics/ConsentAnalytics";
 import MarketingLayout from "@/components/layouts/MarketingLayout";
-import { ConsentProvider } from "@/components/providers/ConsentProvider";
-import { CookieBanner } from "@/components/ui/cookieBanner/CookieBanner";
-import { routing } from "@/i18n/routing";
+import { AppProviders } from "@/components/providers/AppProviders";
+import { Locale, routing } from "@/i18n/routing";
 import { fontVariables } from "@/lib/fonts";
 import {
   SITE_CONFIG,
@@ -12,7 +10,6 @@ import {
 import { getMarketingLayoutProps } from "@/lib/server/layout";
 import { validateLocale } from "@/lib/validation";
 import type { Metadata } from "next";
-import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import "../globals.css";
 
@@ -87,17 +84,12 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body className={`${fontVariables} antialiased`}>
-        <ConsentProvider>
-          <NextIntlClientProvider messages={messages}>
-            <MarketingLayout {...marketingLayoutProps}>
-              {children}
-            </MarketingLayout>
-            <ConsentAnalytics />
-            <CookieBanner />
-          </NextIntlClientProvider>
-        </ConsentProvider>
+        <AppProviders messages={messages} locale={locale as Locale}>
+          <MarketingLayout {...marketingLayoutProps}>
+            {children}
+          </MarketingLayout>
+        </AppProviders>
 
-        {/* Apply nonce to inline scripts */}
         <script
           suppressHydrationWarning
           type="application/ld+json"

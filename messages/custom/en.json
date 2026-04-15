@@ -68,5 +68,8 @@
         "secondary": "Book a demo"
       }
     }
+  },
+  "About": {
+    "title": "About"
   }
 }

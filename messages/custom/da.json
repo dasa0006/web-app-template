@@ -68,5 +68,8 @@
         "secondary": "Book en demo"
       }
     }
+  },
+  "About": {
+    "title": "Om Os"
   }
 }

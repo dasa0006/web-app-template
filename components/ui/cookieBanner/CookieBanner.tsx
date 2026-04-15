@@ -3,30 +3,9 @@
 import { useConsent } from "@/components/providers/ConsentProvider";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { Cookie } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-
-// ─── Cookie Icon ──────────────────────────────────────────────────────────────
-
-const CookieIcon = () => (
-  <svg
-    width="18"
-    height="18"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.75"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-    className="shrink-0 text-brand-accent"
-  >
-    <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5" />
-    <path d="M8.5 8.5v.01" />
-    <path d="M16 15.5v.01" />
-    <path d="M12 12v.01" />
-  </svg>
-);
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -73,7 +52,7 @@ export const CookieBanner = () => {
           {/* Icon + text */}
           <div className="flex items-start gap-3 flex-1 min-w-0">
             <div className="mt-0.5">
-              <CookieIcon />
+              <Cookie />
             </div>
             <div className="min-w-0">
               <p className="text-sm font-semibold text-text-primary leading-snug">

@@ -13,7 +13,6 @@ import { getMarketingLayoutProps } from "@/lib/server/layout";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
-import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import "../globals.css";
 
@@ -84,9 +83,6 @@ export default async function RootLayout({
     notFound();
   }
 
-  // Extract nonce from middleware header
-  const nonce = (await headers()).get("x-nonce") ?? undefined;
-
   const messages = await getMessages();
   const marketingLayoutProps = await getMarketingLayoutProps();
 
@@ -105,7 +101,6 @@ export default async function RootLayout({
 
         {/* Apply nonce to inline scripts */}
         <script
-          nonce={nonce}
           suppressHydrationWarning
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -113,7 +108,6 @@ export default async function RootLayout({
           }}
         />
         <script
-          nonce={nonce}
           suppressHydrationWarning
           type="application/ld+json"
           dangerouslySetInnerHTML={{

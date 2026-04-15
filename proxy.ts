@@ -1,23 +1,20 @@
 // Note: The middleware file convention is deprecated and has been renamed to proxy.
 // See https://nextjs.org/docs/app/api-reference/file-conventions/proxy#migration-to-proxy for more details.
 
-import { randomBytes } from "crypto";
 import createMiddleware from "next-intl/middleware";
 import { NextRequest } from "next/server";
 import { routing } from "./i18n/routing";
 
 const intlMiddleware = createMiddleware(routing);
 
-// Generate cryptographically secure nonce
-function generateNonce(): string {
-  return randomBytes(16).toString("base64");
-}
+// SHA-256 Hashes for Inline JSON-LD Scripts (production)
+const HASH_ORGANIZATION = "sha256-pIjZqPAmarHtJ8oePkZOEolW8UWz+xI/XIMhOiLKL/c=";
+const HASH_WEBSITE = "sha256-/JWNKJn6G1CVf3DUQIsqSqfbIUoap53DCde912CNVR4=";
 
 export default function middleware(request: NextRequest) {
-  const nonce = generateNonce();
   const response = intlMiddleware(request);
 
-  // Security headers
+  // ── Security Headers ──────────────────────────────────────────────────────
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
@@ -33,31 +30,33 @@ export default function middleware(request: NextRequest) {
     );
   }
 
-  // Set env vars to 'production' on deployment
+  // ── Content-Security-Policy (CSP) ─────────────────────────────────────────
   const isProd = process.env.NODE_ENV === "production";
+  
+  // In development, allow 'unsafe-inline' for Turbopack/HMR scripts
+  // In production, rely on strict hashes for JSON-LD
+  const scriptSrc = isProd
+    ? `'self' ${HASH_ORGANIZATION} ${HASH_WEBSITE} https://vercel.com https://*.vercel-insights.com`
+    : `'self' 'unsafe-inline' https://vercel.com https://*.vercel-insights.com`;
 
-  // CSP with nonce
-  const csp = `
-    default-src 'self';
-    script-src 'self' 'nonce-${nonce}' https://vercel.com https://*.vercel-insights.com;
-    style-src 'self' 'unsafe-inline';
-    img-src 'self' blob: data: https://*.vercel.com https://*.vercel-insights.com;
-    connect-src 'self' https://vitals.vercel-insights.com https://*.vercel-insights.com;
-    font-src 'self';
-    frame-src 'self';
-    object-src 'none';
-    base-uri 'self';
-    form-action 'self';
-    frame-ancestors 'none';
-    ${isProd ? "upgrade-insecure-requests;" : ""}
-  `
-    .replace(/\s+/g, " ")
-    .trim();
+  const csp = [
+    "default-src 'self'",
+    `script-src ${scriptSrc}`,
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' blob: data: https://*.vercel.com https://*.vercel-insights.com",
+    "connect-src 'self' https://vitals.vercel-insights.com https://*.vercel-insights.com",
+    "font-src 'self'",
+    "frame-src 'self'",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+    isProd ? "upgrade-insecure-requests" : "",
+  ]
+    .filter(Boolean)
+    .join("; ");
 
   response.headers.set("Content-Security-Policy", csp);
-
-  // Pass nonce to layout via custom header
-  response.headers.set("x-nonce", nonce);
 
   return response;
 }

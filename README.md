@@ -60,3 +60,18 @@ npm run test:ui
 - Unit tests should be placed next to the file they test with `.test.ts` or `.spec.ts` extension
 - Component tests are handled by Storybook stories
 - Use `@testing-library/react` for component testing utilities
+
+## Content Security Policy
+
+### Development
+- `'unsafe-inline'` is allowed for scripts to support Turbopack HMR
+- This is safe because dev servers aren't exposed to untrusted users
+
+### Production  
+- Strict hash-based CSP for inline JSON-LD scripts
+- Hashes auto-update via `prebuild` hook
+- If you modify `lib/seo.ts`, run `npm run update:hashes` manually
+
+### Troubleshooting
+- **CSP error in dev?** Restart the server to refresh middleware
+- **CSP error in prod?** Verify hashes match current JSON-LD output

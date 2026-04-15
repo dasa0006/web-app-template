@@ -1,7 +1,10 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { buildOrganizationSchema, buildWebsiteSchema } from "../lib/seo";
+import {
+  buildOrganizationSchema,
+  buildWebsiteSchema,
+} from "../lib/seo/schemas";
 
 const PROXY_PATH = path.join(process.cwd(), "proxy.ts");
 

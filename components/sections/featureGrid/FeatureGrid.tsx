@@ -77,8 +77,11 @@ export const FeatureGrid = ({
 
           {/* Grid */}
           <div className={cn("grid grid-cols-1 gap-4", columnMap[columns])}>
-            {features.map((feature, i) => (
-              <FeatureCard key={i} {...feature} />
+            {features.map((feature) => (
+              <FeatureCard
+                key={feature.title ?? feature.description}
+                {...feature}
+              />
             ))}
           </div>
         </div>

@@ -12,14 +12,18 @@ interface AppProvidersProps {
   messages: AbstractIntlMessages;
   locale: Locale;
 }
-
+const timeZone = "Europe/Vienna";
 export function AppProviders({
   children,
   messages,
   locale,
 }: AppProvidersProps) {
   return (
-    <NextIntlClientProvider messages={messages} locale={locale}>
+    <NextIntlClientProvider
+      timeZone={timeZone}
+      messages={messages}
+      locale={locale}
+    >
       <ConsentProvider>
         {children}
         <CookieBanner />

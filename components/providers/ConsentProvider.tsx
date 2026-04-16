@@ -12,25 +12,36 @@ import {
   useCallback,
   useContext,
   useState,
+  useEffect,
 } from "react";
 
-// ─── Context ──────────────────────────────────────────────────────────────────
+// --- Context ---
 
 interface ConsentContextValue {
-  /** null = no decision yet; "accepted" / "declined" = decided */
   status: ConsentStatus;
   accept: () => void;
   decline: () => void;
-  /** Wipe the stored decision (useful for a "manage cookies" UI) */
   reset: () => void;
 }
 
 const ConsentContext = createContext<ConsentContextValue | null>(null);
 
-// ─── Provider ─────────────────────────────────────────────────────────────────
+// --- Provider ---
 
 export function ConsentProvider({ children }: { children: ReactNode }) {
-  const [status, setStatus] = useState(() => getConsentStatus());
+  // Server always renders as null because document.cookie is unavailable.
+  // We sync from the cookie on the client after the first paint.
+  const [status, setStatus] = useState<ConsentStatus>(null);
+
+  useEffect(() => {
+    // NOTE: Disabling react-hooks/set-state-in-effect is intentional here.
+    // This is a standard Next.js SSR pattern to prevent hydration mismatches.
+    // The server cannot read cookies, so it initializes as `null`.
+    // We must sync the real state from document.cookie post-mount.
+    // This results in exactly one extra render and does not create a loop.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setStatus(getConsentStatus());
+  }, []);
 
   const accept = useCallback(() => {
     setConsentStatus("accepted");
@@ -54,7 +65,7 @@ export function ConsentProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// ─── Hook ─────────────────────────────────────────────────────────────────────
+// --- Hook ---
 
 export function useConsent(): ConsentContextValue {
   const ctx = useContext(ConsentContext);

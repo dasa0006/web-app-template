@@ -7,9 +7,10 @@ import {
 } from "@/components/sections/header/Header";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
-import Link from "next/link";
+
 import { useEffect, useRef } from "react";
 import { LocaleSwitcher } from "../localeSwitcher/LocaleSwitcher";
+import { Link } from "@/i18n/navigation";
 
 // ─── Mobile Drawer ────────────────────────────────────────────────────────────
 

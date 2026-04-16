@@ -1,3 +1,4 @@
+import { SITE_CONFIG } from "@/lib/config/site";
 import { getRequestConfig } from "next-intl/server";
 import { routing } from "./routing";
 
@@ -16,7 +17,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
     .default;
 
   return {
-    timeZone: "Europe/Vienna",
+    timeZone: SITE_CONFIG.timezone,
     locale,
     messages: {
       ...baseLocale,

@@ -2,6 +2,7 @@
 
 import { ConsentProvider } from "@/components/providers/ConsentProvider";
 import type { Locale } from "@/i18n/routing";
+import { SITE_CONFIG } from "@/lib/config/site";
 import type { AbstractIntlMessages } from "next-intl";
 import { NextIntlClientProvider } from "next-intl";
 import { ConsentAnalytics } from "../analytics/ConsentAnalytics";
@@ -12,7 +13,7 @@ interface AppProvidersProps {
   messages: AbstractIntlMessages;
   locale: Locale;
 }
-const timeZone = "Europe/Vienna";
+
 export function AppProviders({
   children,
   messages,
@@ -20,7 +21,7 @@ export function AppProviders({
 }: AppProvidersProps) {
   return (
     <NextIntlClientProvider
-      timeZone={timeZone}
+      timeZone={SITE_CONFIG.timezone}
       messages={messages}
       locale={locale}
     >

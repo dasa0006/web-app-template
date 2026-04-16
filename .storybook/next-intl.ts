@@ -1,4 +1,5 @@
 import { AbstractIntlMessages } from "next-intl";
+import { SITE_CONFIG } from "../lib/config/site";
 import baseDa from "../messages/base/da.json";
 import baseEn from "../messages/base/en.json";
 import customDa from "../messages/custom/da.json";
@@ -35,7 +36,7 @@ export default {
     en: createMessages("en"),
     da: createMessages("da"),
   } satisfies Record<Locale, Messages>,
-  timeZone: "Europe/Berlin",
+  timeZone: SITE_CONFIG.timezone,
   // Optional: add formats for dates/numbers if needed
   formats: {
     dateTime: {

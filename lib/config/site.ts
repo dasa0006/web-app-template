@@ -9,4 +9,5 @@ export const SITE_CONFIG = {
   /** Default OG / Twitter share image (1200×630) */
   ogImage: "/og-default.png",
   locale: "en_US",
+  timezone: "Europe/Vienna",
 } as const;

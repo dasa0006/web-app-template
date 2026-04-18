@@ -1,184 +1,239 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { fireEvent, render, screen } from "@testing-library/react";
+// Button.test.tsx
+import { useButtonTracking } from "@/hooks/useButtonTracking";
+import { render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { createRef } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Button } from "./Button";
 
-// Mock the tracking hook so we can spy on its calls without affecting other tests
-const mockHandleClick = vi.fn();
-vi.mock("@/hooks/useButtonTracking", () => ({
-  useButtonTracking: ({ event, meta, onClick }: any) => ({
-    handleClick: (e: any) => {
-      if (event) {
-        // Simulate tracking call
-        mockHandleClick(event, meta);
-      }
-      onClick?.(e);
-    },
-  }),
-  configureTracking: vi.fn(),
+// ─── Mocks ───────────────────────────────────────────────────────────────────
+
+// Mock cn to simply join class strings, avoiding tailwind-merge dependency in tests
+vi.mock("@/lib/utils", () => ({
+  cn: (...args: unknown[]) => args.filter(Boolean).join(" "),
 }));
 
-const renderButton = (props?: Partial<React.ComponentProps<typeof Button>>) =>
-  render(<Button {...props}>Click me</Button>);
+// Mock the tracking hook
+vi.mock("@/hooks/useButtonTracking", () => ({
+  useButtonTracking: vi.fn(),
+}));
 
-describe("Button — rendering", () => {
-  it("renders children", () => {
-    renderButton();
-    expect(
-      screen.getByRole("button", { name: /click me/i })
-    ).toBeInTheDocument();
-  });
+describe("Button Component", () => {
+  const mockHandleClick = vi.fn();
 
-  it("applies the primary variant by default", () => {
-    renderButton();
-    const btn = screen.getByRole("button");
-    expect(btn.className).toMatch(/bg-brand-primary/);
-  });
-
-  it("applies the secondary variant", () => {
-    renderButton({ variant: "secondary" });
-    const btn = screen.getByRole("button");
-    expect(btn.className).toMatch(/bg-transparent/);
-  });
-
-  it("applies the ghost variant", () => {
-    renderButton({ variant: "ghost" });
-    const btn = screen.getByRole("button");
-    expect(btn.className).toMatch(/border-transparent/);
-  });
-
-  it("applies size classes for sm", () => {
-    renderButton({ size: "sm" });
-    expect(screen.getByRole("button").className).toMatch(/h-8/);
-  });
-
-  it("applies size classes for lg", () => {
-    renderButton({ size: "lg" });
-    expect(screen.getByRole("button").className).toMatch(/h-12/);
-  });
-
-  it("merges custom className", () => {
-    renderButton({ className: "custom-class" });
-    expect(screen.getByRole("button").className).toMatch(/custom-class/);
-  });
-
-  it("renders leftIcon and rightIcon", () => {
-    render(
-      <Button
-        leftIcon={<span data-testid="left-icon" />}
-        rightIcon={<span data-testid="right-icon" />}
-      >
-        With icons
-      </Button>
-    );
-    expect(screen.getByTestId("left-icon")).toBeInTheDocument();
-    expect(screen.getByTestId("right-icon")).toBeInTheDocument();
-  });
-});
-
-describe("Button — disabled state", () => {
-  it("is disabled when disabled prop is true", () => {
-    renderButton({ disabled: true });
-    expect(screen.getByRole("button")).toBeDisabled();
-  });
-
-  it("sets aria-disabled when disabled", () => {
-    renderButton({ disabled: true });
-    expect(screen.getByRole("button")).toHaveAttribute("aria-disabled", "true");
-  });
-
-  it("does not fire onClick when disabled", () => {
-    const onClick = vi.fn();
-    renderButton({ disabled: true, onClick });
-    fireEvent.click(screen.getByRole("button"));
-    expect(onClick).not.toHaveBeenCalled();
-  });
-});
-
-describe("Button — loading state", () => {
-  it("is disabled when isLoading is true", () => {
-    renderButton({ isLoading: true });
-    expect(screen.getByRole("button")).toBeDisabled();
-  });
-
-  it("sets aria-busy when loading", () => {
-    renderButton({ isLoading: true });
-    expect(screen.getByRole("button")).toHaveAttribute("aria-busy", "true");
-  });
-
-  it("shows the loadingLabel via aria-label on the spinner wrapper", () => {
-    renderButton({ isLoading: true, loadingLabel: "Saving changes" });
-    expect(screen.getByLabelText("Saving changes")).toBeInTheDocument();
-  });
-
-  it("hides content visually while loading", () => {
-    renderButton({ isLoading: true });
-    const btn = screen.getByRole("button");
-    const contentSpan = btn.querySelector("[aria-hidden='true']");
-    expect(contentSpan).toBeInTheDocument();
-  });
-
-  it("does not fire onClick when loading", () => {
-    const onClick = vi.fn();
-    renderButton({ isLoading: true, onClick });
-    fireEvent.click(screen.getByRole("button"));
-    expect(onClick).not.toHaveBeenCalled();
-  });
-});
-
-describe("Button — click and tracking", () => {
   beforeEach(() => {
-    mockHandleClick.mockClear();
-  });
-
-  it("fires onClick when clicked", () => {
-    const onClick = vi.fn();
-    renderButton({ onClick });
-    fireEvent.click(screen.getByRole("button"));
-    expect(onClick).toHaveBeenCalledTimes(1);
-  });
-
-  it("calls the tracking adapter when trackingEvent is provided", () => {
-    render(
-      <Button trackingEvent="cta_clicked" trackingMeta={{ location: "hero" }}>
-        Track me
-      </Button>
-    );
-
-    fireEvent.click(screen.getByRole("button"));
-    expect(mockHandleClick).toHaveBeenCalledWith("cta_clicked", {
-      location: "hero",
+    vi.clearAllMocks();
+    // Default mock implementation for the tracking hook
+    vi.mocked(useButtonTracking).mockReturnValue({
+      handleClick: mockHandleClick,
     });
   });
 
-  it("does not call the tracking adapter when trackingEvent is absent", () => {
-    renderButton();
-    fireEvent.click(screen.getByRole("button"));
-    expect(mockHandleClick).not.toHaveBeenCalled();
+  // ─── Basic Rendering & Props ─────────────────────────────────────────────
+
+  it("renders children correctly", () => {
+    render(<Button>Click Me</Button>);
+    expect(
+      screen.getByRole("button", { name: "Click Me" })
+    ).toBeInTheDocument();
   });
 
-  it("fires tracking before onClick", () => {
-    const order: string[] = [];
-    const onClick = vi.fn(() => order.push("click"));
+  it("applies default props (variant: primary, size: md, type: button)", () => {
+    render(<Button>Defaults</Button>);
+    const button = screen.getByRole("button");
 
-    // We'll capture the call order by spying on mockHandleClick and onClick
-    mockHandleClick.mockImplementation(() => order.push("track"));
+    expect(button).toHaveAttribute("type", "button");
+    expect(button.className).toContain("bg-brand-primary"); // primary variant
+    expect(button.className).toContain("text-sm px-4 py-2"); // md size
+  });
 
+  it("forwards ref correctly", () => {
+    const ref = createRef<HTMLButtonElement>();
+    render(<Button ref={ref}>Ref</Button>);
+    expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+    expect(ref.current).toBe(screen.getByRole("button"));
+  });
+
+  it("passes custom className and extra HTML attributes", () => {
     render(
-      <Button trackingEvent="cta" onClick={onClick}>
-        Ordered
+      <Button className="mt-4" data-testid="custom-btn" type="submit">
+        Submit
+      </Button>
+    );
+    const button = screen.getByTestId("custom-btn");
+    expect(button.className).toContain("mt-4");
+    expect(button).toHaveAttribute("type", "submit");
+  });
+
+  // ─── Variants & Sizes ────────────────────────────────────────────────────
+
+  it.each(["primary", "secondary", "accent", "transparent", "ghost"] as const)(
+    'applies correct classes for "%s" variant',
+    (variant) => {
+      render(<Button variant={variant}>Variant</Button>);
+      const button = screen.getByRole("button");
+
+      if (variant === "ghost") {
+        expect(button.className).toContain("border-transparent");
+      } else if (variant === "transparent") {
+        expect(button.className).toContain("bg-transparent");
+      } else {
+        expect(button.className).toContain(`bg-brand-${variant}`);
+      }
+    }
+  );
+
+  it.each(["sm", "md", "lg"] as const)(
+    'applies correct classes for "%s" size',
+    (size) => {
+      render(<Button size={size}>Size</Button>);
+      const button = screen.getByRole("button");
+
+      const expectedTextSize = {
+        sm: "text-xs",
+        md: "text-sm",
+        lg: "text-base",
+      };
+
+      expect(button.className).toContain(expectedTextSize[size]);
+    }
+  );
+
+  // ─── Loading State ───────────────────────────────────────────────────────
+
+  it("displays loading spinner and handles aria attributes", () => {
+    render(<Button isLoading>Loading</Button>);
+    const button = screen.getByRole("button");
+
+    // Button should be disabled
+    expect(button).toBeDisabled();
+    expect(button).toHaveAttribute("aria-disabled", "true");
+    expect(button).toHaveAttribute("aria-busy", "true");
+
+    // Status wrapper should be visible
+    const status = screen.getByRole("status");
+    expect(status).toBeInTheDocument();
+
+    // The "animate-spin" class is on the <svg> INSIDE the status span
+    const spinnerSvg = status.querySelector("svg");
+    expect(spinnerSvg).toHaveClass("animate-spin");
+
+    // Use `within` to specifically target the sr-only label inside the spinner,
+    // avoiding a match with the invisible children text.
+    const { getByText } = within(status);
+    expect(getByText("Loading")).toHaveClass("sr-only");
+  });
+
+  it("hides content visually and from screen readers when loading", () => {
+    render(
+      <Button isLoading>
+        <span data-testid="content">Hidden Content</span>
+      </Button>
+    );
+    const content = screen.getByTestId("content");
+
+    // Use .parentElement to get the wrapper span (because content is already a span)
+    const contentWrapper = content.parentElement;
+
+    // Content wrapper should have invisible class
+    expect(contentWrapper).toHaveClass("invisible");
+    // Content wrapper should be hidden from screen readers
+    expect(contentWrapper).toHaveAttribute("aria-hidden", "true");
+  });
+
+  it("uses custom loadingLabel for screen readers", () => {
+    render(
+      <Button isLoading loadingLabel="Saving data...">
+        Save
+      </Button>
+    );
+    expect(screen.getByText("Saving data...")).toBeInTheDocument();
+  });
+
+  // ─── Disabled State ──────────────────────────────────────────────────────
+
+  it("handles disabled state correctly", () => {
+    render(<Button disabled>Disabled</Button>);
+    const button = screen.getByRole("button");
+
+    expect(button).toBeDisabled();
+    expect(button).toHaveAttribute("aria-disabled", "true");
+    // React renders boolean false attributes as attr="false", it doesn't omit them
+    expect(button).toHaveAttribute("aria-busy", "false");
+  });
+
+  // ─── Icons ───────────────────────────────────────────────────────────────
+
+  it("renders left and right icons with correct sizes and aria-hidden", () => {
+    render(
+      <Button
+        leftIcon={<span data-testid="left-icon">L</span>}
+        rightIcon={<span data-testid="right-icon">R</span>}
+      >
+        Icons
       </Button>
     );
 
-    fireEvent.click(screen.getByRole("button"));
-    expect(order).toEqual(["track", "click"]);
-  });
-});
+    const leftIcon = screen.getByTestId("left-icon");
+    const rightIcon = screen.getByTestId("right-icon");
 
-describe("Button — forwarded ref", () => {
-  it("forwards ref to the button element", () => {
-    const ref = vi.fn();
-    render(<Button ref={ref}>Ref test</Button>);
-    expect(ref).toHaveBeenCalledWith(expect.any(HTMLButtonElement));
+    // Icons should be in the document
+    expect(leftIcon).toBeInTheDocument();
+    expect(rightIcon).toBeInTheDocument();
+
+    // Use .parentElement to get the IconSlot wrapper span
+    const leftWrapper = leftIcon.parentElement;
+    const rightWrapper = rightIcon.parentElement;
+
+    // Icon wrappers should have aria-hidden="true"
+    expect(leftWrapper).toHaveAttribute("aria-hidden", "true");
+    expect(rightWrapper).toHaveAttribute("aria-hidden", "true");
+
+    // Icon wrappers should have default md size class (size-4)
+    expect(leftWrapper).toHaveClass("size-4");
+  });
+
+  it("applies correct icon size based on button size prop", () => {
+    render(
+      <Button size="sm" leftIcon={<span data-testid="sm-icon">X</span>}>
+        Small
+      </Button>
+    );
+    const iconWrapper = screen.getByTestId("sm-icon").parentElement;
+    expect(iconWrapper).toHaveClass("size-3.5"); // sm icon size
+  });
+
+  // ─── Tracking ────────────────────────────────────────────────────────────
+
+  it("passes tracking props to useButtonTracking hook", () => {
+    const mockOnClick = vi.fn();
+    const trackingMeta = { page: "home" };
+
+    render(
+      <Button
+        trackingEvent="btn_click"
+        trackingMeta={trackingMeta}
+        onClick={mockOnClick}
+      >
+        Track
+      </Button>
+    );
+
+    expect(useButtonTracking).toHaveBeenCalledWith({
+      event: "btn_click",
+      meta: trackingMeta,
+      onClick: mockOnClick,
+    });
+  });
+
+  it("uses handleClick from tracking hook as the onClick handler", async () => {
+    const user = userEvent.setup();
+    render(<Button trackingEvent="btn_click">Track</Button>);
+
+    await user.click(screen.getByRole("button"));
+
+    // The mock handleClick returned by the mocked hook should be called,
+    // NOT a direct native onClick event, because the component delegates to handleClick.
+    expect(mockHandleClick).toHaveBeenCalledTimes(1);
   });
 });

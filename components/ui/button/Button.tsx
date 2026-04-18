@@ -13,7 +13,7 @@ export type ButtonVariant =
 
 export type ButtonSize = "sm" | "md" | "lg";
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Visual style variant */
   variant?: ButtonVariant;
   /** Button size */
@@ -68,7 +68,10 @@ const variantStyles: Record<ButtonVariant, string> = {
   ].join(" "),
 };
 
-const sizeConfig: Record<ButtonSize, { button: string; icon: string; gap: string }> = {
+const sizeConfig: Record<
+  ButtonSize,
+  { button: string; icon: string; gap: string }
+> = {
   sm: { button: "text-xs px-3 py-1.5", icon: "size-3.5", gap: "gap-1.5" },
   md: { button: "text-sm px-4 py-2", icon: "size-4", gap: "gap-2" },
   lg: { button: "text-base px-6 py-3", icon: "size-5", gap: "gap-2.5" },
@@ -82,8 +85,17 @@ const baseStyles = [
 
 // ─── Spinner ─────────────────────────────────────────────────────────────────
 
-const Spinner = ({ sizeClass, label }: { sizeClass: string; label: string }) => (
-  <span className="absolute inset-0 flex items-center justify-center" role="status">
+const Spinner = ({
+  sizeClass,
+  label,
+}: {
+  sizeClass: string;
+  label: string;
+}) => (
+  <span
+    className="absolute inset-0 flex items-center justify-center"
+    role="status"
+  >
     <svg
       className={cn("animate-spin shrink-0", sizeClass)}
       xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +123,13 @@ const Spinner = ({ sizeClass, label }: { sizeClass: string; label: string }) => 
 
 // ─── Icon Wrapper ────────────────────────────────────────────────────────────
 
-const IconSlot = ({ children, sizeClass }: { children: ReactNode; sizeClass: string }) => (
+const IconSlot = ({
+  children,
+  sizeClass,
+}: {
+  children: ReactNode;
+  sizeClass: string;
+}) => (
   <span className={cn("shrink-0", sizeClass)} aria-hidden="true">
     {children}
   </span>
@@ -119,7 +137,7 @@ const IconSlot = ({ children, sizeClass }: { children: ReactNode; sizeClass: str
 
 // ─── Button ──────────────────────────────────────────────────────────────────
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = forwardRef<HTMLButtonElement, IButton>(
   (
     {
       variant = "primary",
@@ -162,7 +180,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {isLoading && <Spinner sizeClass={iconStyle} label={loadingLabel} />}
 
         <span
-          className={cn("inline-flex items-center justify-center", gap, isLoading && "invisible")}
+          className={cn(
+            "inline-flex items-center justify-center",
+            gap,
+            isLoading && "invisible"
+          )}
           aria-hidden={isLoading}
         >
           {leftIcon && <IconSlot sizeClass={iconStyle}>{leftIcon}</IconSlot>}

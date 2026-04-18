@@ -1,13 +1,7 @@
-const CSP_HASHES = {
-  ORGANIZATION: "sha256-pIjZqPAmarHtJ8oePkZOEolW8UWz+xI/XIMhOiLKL/c=",
-  WEBSITE: "sha256-/JWNKJn6G1CVf3DUQIsqSqfbIUoap53DCde912CNVR4=",
-} as const;
+import { CSP_HASHES } from "./csp.hashes";
 
 export function getCspString(): string {
   const isProd = process.env.NODE_ENV === "production";
-
-  // In development, allow 'unsafe-inline' for Turbopack/HMR scripts
-  // In production, rely on strict hashes for JSON-LD
   const scriptSrc = isProd
     ? `'self' ${CSP_HASHES.ORGANIZATION} ${CSP_HASHES.WEBSITE} https://vercel.com https://*.vercel-insights.com`
     : `'self' 'unsafe-inline' https://vercel.com https://*.vercel-insights.com`;

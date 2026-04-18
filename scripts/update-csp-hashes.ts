@@ -6,32 +6,44 @@ import {
   buildWebsiteSchema,
 } from "../lib/seo/schemas";
 
-const PROXY_PATH = path.join(process.cwd(), "proxy.ts");
+const OUTPUT_PATH = path.join(process.cwd(), "security", "csp.hashes.ts");
 
-// Compute SHA-256 hashes (base64 encoded, matching browser CSP format)
+/**
+ * Computes a SHA-256 hash for a JSON payload, formatted for CSP headers.
+ */
 function getCspHash(json: unknown): string {
   const jsonString = JSON.stringify(json);
   const hash = crypto.createHash("sha256").update(jsonString).digest("base64");
   return `sha256-${hash}`;
 }
 
-const orgHash = getCspHash(buildOrganizationSchema());
-const webHash = getCspHash(buildWebsiteSchema());
+try {
+  console.log("🔍 Calculating CSP hashes...");
 
-console.log("✅ Generated CSP Hashes:");
-console.log(`   Organization: ${orgHash}`);
-console.log(`   Website:      ${webHash}`);
+  const orgHash = getCspHash(buildOrganizationSchema());
+  const webHash = getCspHash(buildWebsiteSchema());
 
-// Auto-update proxy.ts
-let proxyContent = fs.readFileSync(PROXY_PATH, "utf-8");
-proxyContent = proxyContent.replace(
-  /sha256-REPLACE_WITH_YOUR_ORG_HASH/,
-  orgHash
-);
-proxyContent = proxyContent.replace(
-  /sha256-REPLACE_WITH_YOUR_WEBSITE_HASH/,
-  webHash
-);
+  console.log("✅ Generated CSP Hashes:");
+  console.log(`  Organization: ${orgHash}`);
+  console.log(`  Website:      ${webHash}`);
 
-fs.writeFileSync(PROXY_PATH, proxyContent);
-console.log("📝 Updated proxy.ts with new hashes.");
+  // Generate a type-safe, standalone TypeScript module
+  const fileContent = `// ⚠️ AUTO-GENERATED. DO NOT EDIT MANUALLY.
+// Run \`npm run update:hashes\` to regenerate.
+export const CSP_HASHES = {
+  ORGANIZATION: "${orgHash}",
+  WEBSITE: "${webHash}",
+} as const;
+`;
+
+  fs.writeFileSync(OUTPUT_PATH, fileContent, "utf-8");
+  console.log(`📝 Successfully wrote hashes to ${path.relative(process.cwd(), OUTPUT_PATH)}`);
+} catch (error) {
+  console.error("❌ Failed to generate CSP hashes:");
+  if (error instanceof Error) {
+    console.error(`  ${error.message}`);
+  } else {
+    console.error(`  ${String(error)}`);
+  }
+  process.exit(1);
+}

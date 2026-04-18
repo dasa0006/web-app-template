@@ -19,6 +19,7 @@
 
 # production
 /build
+security/csp.hashes.ts
 
 # misc
 .DS_Store

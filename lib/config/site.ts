@@ -1,7 +1,7 @@
 export const SITE_CONFIG = {
   /** Canonical origin — no trailing slash */
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com",
-  name: "Your Brand",
+  name: "Acme, inc.",
   description:
     "One clear sentence that describes what your product does and who it helps.",
   /** Shown in Twitter cards and some search snippets */

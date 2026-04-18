@@ -9,6 +9,7 @@ import { MaxWidthWrapper } from "@/components/ui/maxWidthWrapper/MaxWidthWrapper
 import MobileDrawer from "@/components/ui/mobileDrawer/MobileDrawer";
 import { useScrolled } from "@/hooks/useScrolled";
 import { Link } from "@/i18n/navigation";
+import { ROUTES } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 import { Menu } from "lucide-react";
 
@@ -79,7 +80,7 @@ export const Header = ({
           <div className="flex h-16 items-center justify-between gap-8">
             {/* Brand */}
             <Link
-              href="/"
+              href={ROUTES.HOME}
               aria-label="Go to homepage"
               className="shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2 rounded-md"
             >

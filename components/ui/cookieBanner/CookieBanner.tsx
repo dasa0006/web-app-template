@@ -2,6 +2,7 @@
 
 import { useConsent } from "@/components/providers/ConsentProvider";
 import { Link } from "@/i18n/navigation";
+import { ROUTES } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 import { Cookie } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -63,7 +64,7 @@ export const CookieBanner = () => {
                 {t.rich("description", {
                   privacyLink: (chunks) => (
                     <Link
-                      href="/privacy"
+                      href={ROUTES.PRIVACY}
                       className="underline underline-offset-2 transition-colors hover:text-text-primary"
                     >
                       {chunks}

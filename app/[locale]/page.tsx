@@ -3,6 +3,7 @@ import { FeatureGrid } from "@/components/sections/featureGrid/FeatureGrid";
 import { Hero } from "@/components/sections/hero/Hero";
 import type { Feature } from "@/lib/featureIcons";
 import { getFeatureIcon } from "@/lib/featureIcons";
+import { ROUTES } from "@/lib/routes";
 import { getTranslations } from "next-intl/server";
 
 export default async function Page() {
@@ -34,12 +35,12 @@ export default async function Page() {
         buttons={[
           {
             label: t("cta.buttons.primary"),
-            href: "/signup",
+            href: ROUTES.SIGN_UP,
             variant: "primary",
           },
           {
             label: t("cta.buttons.secondary"),
-            href: "/contact",
+            href: ROUTES.CONTACT,
             variant: "secondary",
           },
         ]}

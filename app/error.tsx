@@ -1,5 +1,6 @@
 "use client";
 
+import { ROUTES } from "@/lib/routes";
 import Link from "next/link";
 import { useEffect } from "react";
 
@@ -110,7 +111,7 @@ export default function RootError({ error, reset }: ErrorProps) {
             </button>
 
             <Link
-              href="/"
+              href={ROUTES.HOME}
               style={{
                 padding: "0.75rem 1.5rem",
                 borderRadius: "9999px",

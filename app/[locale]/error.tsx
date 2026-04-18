@@ -4,6 +4,7 @@ import { Section } from "@/components/sections/section/Section";
 import { Heading } from "@/components/ui/heading/Heading";
 import { MaxWidthWrapper } from "@/components/ui/maxWidthWrapper/MaxWidthWrapper";
 import { Link } from "@/i18n/navigation";
+import { ROUTES } from "@/lib/routes";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 
@@ -56,7 +57,7 @@ export default function Error({ error, reset }: ErrorProps) {
             </button>
 
             <Link
-              href="/"
+              href={ROUTES.HOME}
               className="inline-flex items-center justify-center rounded-pill px-6 py-3 text-sm font-semibold border border-border-default text-text-primary hover:bg-surface-subtle transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2"
             >
               {t("backHome")}

@@ -4,6 +4,7 @@ import { Section } from "@/components/sections/section/Section";
 import { Heading } from "@/components/ui/heading/Heading";
 import { MaxWidthWrapper } from "@/components/ui/maxWidthWrapper/MaxWidthWrapper";
 import { Link } from "@/i18n/navigation";
+import { ROUTES } from "@/lib/routes";
 
 export default async function NotFound() {
   const t = await getTranslations("NotFound");
@@ -20,7 +21,7 @@ export default async function NotFound() {
           <Heading as="h1">{t("title")}</Heading>
           <p className="text-lg text-text-muted max-w-md">{t("description")}</p>
           <Link
-            href="/"
+            href={ROUTES.HOME}
             className="mt-4 inline-flex items-center justify-center rounded-pill px-6 py-3 text-sm font-semibold bg-brand-primary text-text-on-brand hover:bg-brand-primary-hover"
           >
             {t("backHome")}

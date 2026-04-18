@@ -1,6 +1,7 @@
 import { IFooter } from "@/components/sections/footer/Footer";
 import { IHeader } from "@/components/sections/header/Header";
 import { getTranslations } from "next-intl/server";
+import { ROUTES } from "../routes";
 
 export async function getMarketingLayoutProps() {
   const [tHeader, tFooter] = await Promise.all([
@@ -11,19 +12,19 @@ export async function getMarketingLayoutProps() {
   return {
     header: {
       navLinks: [
-        { label: tHeader("nav.product"), href: "/product" },
-        { label: tHeader("nav.pricing"), href: "/pricing" },
-        { label: tHeader("nav.docs"), href: "/docs" },
+        { label: tHeader("nav.product"), href: ROUTES.PRODUCT },
+        { label: tHeader("nav.pricing"), href: ROUTES.PRICING },
+        { label: tHeader("nav.docs"), href: ROUTES.DOCS },
       ],
       ctas: [
         {
           label: tHeader("ctas.signIn"),
-          href: "/login",
+          href: ROUTES.LOGIN,
           variant: "secondary" as const,
         },
         {
           label: tHeader("ctas.getStarted"),
-          href: "/signup",
+          href: ROUTES.SIGN_UP,
           variant: "primary" as const,
         },
       ],
@@ -32,8 +33,8 @@ export async function getMarketingLayoutProps() {
     footer: {
       tagline: tFooter("tagline"),
       legalLinks: [
-        { label: tFooter("legal.privacy"), href: "/privacy" },
-        { label: tFooter("legal.terms"), href: "/terms" },
+        { label: tFooter("legal.privacy"), href: ROUTES.PRIVACY },
+        { label: tFooter("legal.terms"), href: ROUTES.TERMS },
       ],
       copyright: `© ${new Date().getFullYear()} Acme, Inc.`,
     } satisfies IFooter,

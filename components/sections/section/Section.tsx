@@ -3,6 +3,10 @@ import { ReactNode } from "react";
 
 export type SectionSize = "sm" | "md" | "lg" | "xl";
 export type SectionBackground = "white" | "subtle" | "dark" | "accent";
+export type Background = Extract<
+  SectionBackground,
+  "dark" | "accent" | "white"
+>;
 
 export interface ISection {
   children: ReactNode;

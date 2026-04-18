@@ -1,16 +1,12 @@
 import Brand from "@/components/brand/Brand";
-import {
-  IHeaderCTA,
-  INavLink,
-  ctaBase,
-  ctaVariants,
-} from "@/components/sections/header/Header";
+import { IHeaderCTA, INavLink } from "@/components/sections/header/Header";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 
-import { useEffect, useRef } from "react";
-import { LocaleSwitcher } from "../localeSwitcher/LocaleSwitcher";
 import { Link } from "@/i18n/navigation";
+import { useEffect, useRef } from "react";
+import LinkButton from "../linkButton/LinkButton";
+import { LocaleSwitcher } from "../localeSwitcher/LocaleSwitcher";
 
 // ─── Mobile Drawer ────────────────────────────────────────────────────────────
 
@@ -25,7 +21,6 @@ interface DrawerProps {
 const MobileDrawer = ({
   isOpen,
   onClose,
-
   navLinks,
   ctas,
   showLocaleSwitcher,
@@ -124,18 +119,13 @@ const MobileDrawer = ({
           {ctas.length > 0 && (
             <div className="mt-auto flex flex-col gap-2 pt-8 border-t border-border-subtle">
               {ctas.map((cta) => (
-                <Link
+                <LinkButton
+                  className="w-full justify-center py-3 text-sm"
                   key={cta.label}
                   href={cta.href}
-                  onClick={onClose}
-                  className={cn(
-                    ctaBase,
-                    "w-full justify-center py-3 text-sm",
-                    ctaVariants[cta.variant ?? "primary"]
-                  )}
-                >
-                  {cta.label}
-                </Link>
+                  label={cta.label}
+                  variant={cta.variant}
+                />
               ))}
             </div>
           )}

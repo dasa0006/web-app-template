@@ -1,14 +1,16 @@
 import { Section } from "@/components/sections/section/Section";
 import { Heading } from "@/components/ui/heading/Heading";
+import LinkButton, {
+  LinkButtonVariant,
+} from "@/components/ui/linkButton/LinkButton";
 import { MaxWidthWrapper } from "@/components/ui/maxWidthWrapper/MaxWidthWrapper";
-import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
 
 export interface IHeroCTA {
   label: string;
   href: string;
-  variant?: "primary" | "secondary";
+  variant?: LinkButtonVariant;
 }
 
 export interface IHero {
@@ -21,16 +23,6 @@ export interface IHero {
   className?: string;
 }
 
-const ctaBase =
-  "inline-flex items-center justify-center rounded-pill px-6 py-3 text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2";
-
-const ctaVariants: Record<NonNullable<IHeroCTA["variant"]>, string> = {
-  primary:
-    "bg-brand-primary text-text-on-brand hover:bg-brand-primary-hover focus-visible:ring-brand-primary",
-  secondary:
-    "border border-border-default bg-surface-base text-text-primary hover:bg-surface-subtle hover:border-border-strong focus-visible:ring-border-focus",
-};
-
 export const Hero = ({
   eyebrow,
   heading,
@@ -41,9 +33,10 @@ export const Hero = ({
   className,
 }: IHero) => {
   const isCentered = align === "center";
+  const background = "white";
 
   return (
-    <Section size="xl" background="white" className={className}>
+    <Section size="xl" background={background} className={className}>
       <MaxWidthWrapper>
         <div
           className={cn(
@@ -93,13 +86,13 @@ export const Hero = ({
               )}
             >
               {ctas.map((cta) => (
-                <Link
+                <LinkButton
                   key={cta.label}
                   href={cta.href}
-                  className={cn(ctaBase, ctaVariants[cta.variant ?? "primary"])}
-                >
-                  {cta.label}
-                </Link>
+                  label={cta.label}
+                  variant={cta.variant}
+                  background={background}
+                />
               ))}
             </div>
           )}

@@ -1,6 +1,9 @@
 "use client";
 
 import Brand from "@/components/brand/Brand";
+import LinkButton, {
+  LinkButtonVariant,
+} from "@/components/ui/linkButton/LinkButton";
 import { LocaleSwitcher } from "@/components/ui/localeSwitcher/LocaleSwitcher";
 import { MaxWidthWrapper } from "@/components/ui/maxWidthWrapper/MaxWidthWrapper";
 import MobileDrawer from "@/components/ui/mobileDrawer/MobileDrawer";
@@ -21,7 +24,7 @@ export interface INavLink {
 export interface IHeaderCTA {
   label: string;
   href: string;
-  variant?: "primary" | "secondary";
+  variant?: LinkButtonVariant;
 }
 
 export type HeaderVariant = "solid" | "transparent";
@@ -38,18 +41,6 @@ export interface IHeader {
   showLocaleSwitcher?: boolean; // ← new flag
   className?: string;
 }
-
-// ─── Style constants ──────────────────────────────────────────────────────────
-
-export const ctaBase =
-  "inline-flex items-center justify-center rounded-pill px-4 py-2 text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2";
-
-export const ctaVariants: Record<NonNullable<IHeaderCTA["variant"]>, string> = {
-  primary:
-    "bg-brand-primary text-text-on-brand hover:bg-brand-primary-hover focus-visible:ring-brand-primary",
-  secondary:
-    "border border-border-default text-text-secondary hover:bg-surface-subtle hover:border-border-strong focus-visible:ring-border-focus",
-};
 
 // ─── Header ───────────────────────────────────────────────────────────────────
 
@@ -122,16 +113,12 @@ export const Header = ({
               {ctas.length > 0 && (
                 <div className="hidden items-center gap-2 md:flex">
                   {ctas.map((cta) => (
-                    <Link
+                    <LinkButton
                       key={cta.label}
                       href={cta.href}
-                      className={cn(
-                        ctaBase,
-                        ctaVariants[cta.variant ?? "primary"]
-                      )}
-                    >
-                      {cta.label}
-                    </Link>
+                      label={cta.label}
+                      variant={cta.variant}
+                    />
                   ))}
                 </div>
               )}

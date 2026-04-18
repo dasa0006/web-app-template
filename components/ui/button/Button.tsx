@@ -2,34 +2,38 @@ import { TrackingMeta, useButtonTracking } from "@/hooks/useButtonTracking";
 import { cn } from "@/lib/utils";
 import { ButtonHTMLAttributes, forwardRef, ReactNode } from "react";
 
-// ─── Variants & Sizes ────────────────────────────────────────────────────────
+// ─── Types ───────────────────────────────────────────────────────────────────
 
-export type ButtonVariant = "primary" | "secondary" | "ghost";
+export type ButtonVariant =
+  | "primary"
+  | "secondary"
+  | "accent"
+  | "transparent"
+  | "ghost";
+
 export type ButtonSize = "sm" | "md" | "lg";
 
-// ─── Interface ───────────────────────────────────────────────────────────────
-
-export interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** Visual style of the button */
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Visual style variant */
   variant?: ButtonVariant;
-  /** Size of the button */
+  /** Button size */
   size?: ButtonSize;
-  /** Shows a spinner and disables interaction */
+  /** Shows spinner and disables interaction */
   isLoading?: boolean;
-  /** Label announced to screen readers while loading */
+  /** Accessible label for loading state */
   loadingLabel?: string;
-  /** Optional left-side icon */
+  /** Icon rendered before children */
   leftIcon?: ReactNode;
-  /** Optional right-side icon */
+  /** Icon rendered after children */
   rightIcon?: ReactNode;
-  /** Analytics event name fired on click */
+  /** Analytics event name */
   trackingEvent?: string;
-  /** Additional metadata attached to the tracking event */
+  /** Analytics event metadata */
   trackingMeta?: TrackingMeta;
   children: ReactNode;
 }
 
-// ─── Style Maps ──────────────────────────────────────────────────────────────
+// ─── Style Configuration ─────────────────────────────────────────────────────
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary: [
@@ -38,14 +42,24 @@ const variantStyles: Record<ButtonVariant, string> = {
     "active:scale-[0.98]",
     "disabled:bg-surface-subtle disabled:border-border-default disabled:text-text-disabled",
   ].join(" "),
-
   secondary: [
+    "bg-brand-secondary text-text-primary border border-border-default",
+    "hover:bg-surface-subtle hover:border-border-strong",
+    "active:bg-surface-subtle active:scale-[0.98]",
+    "disabled:text-text-disabled disabled:border-border-subtle",
+  ].join(" "),
+  accent: [
+    "bg-brand-accent text-text-on-brand border border-brand-accent",
+    "hover:bg-brand-accent-hover hover:border-brand-accent-hover",
+    "active:scale-[0.98]",
+    "disabled:bg-surface-subtle disabled:border-border-default disabled:text-text-disabled",
+  ].join(" "),
+  transparent: [
     "bg-transparent text-text-primary border border-border-default",
     "hover:bg-surface-subtle hover:border-border-strong",
     "active:bg-surface-subtle active:scale-[0.98]",
     "disabled:text-text-disabled disabled:border-border-subtle",
   ].join(" "),
-
   ghost: [
     "bg-transparent text-text-secondary border border-transparent",
     "hover:bg-surface-subtle hover:text-text-primary",
@@ -54,53 +68,64 @@ const variantStyles: Record<ButtonVariant, string> = {
   ].join(" "),
 };
 
-const sizeStyles: Record<ButtonSize, string> = {
-  sm: "h-8 px-3 text-xs gap-1.5 rounded-md",
-  md: "h-10 px-4 text-sm gap-2 rounded-lg",
-  lg: "h-12 px-6 text-base gap-2.5 rounded-xl",
+const sizeConfig: Record<ButtonSize, { button: string; icon: string; gap: string }> = {
+  sm: { button: "text-xs px-3 py-1.5", icon: "size-3.5", gap: "gap-1.5" },
+  md: { button: "text-sm px-4 py-2", icon: "size-4", gap: "gap-2" },
+  lg: { button: "text-base px-6 py-3", icon: "size-5", gap: "gap-2.5" },
 };
 
-const iconSizeStyles: Record<ButtonSize, string> = {
-  sm: "size-3.5",
-  md: "size-4",
-  lg: "size-5",
-};
+const baseStyles = [
+  "relative inline-flex items-center justify-center rounded-pill",
+  "font-semibold transition-all duration-200",
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2",
+].join(" ");
 
 // ─── Spinner ─────────────────────────────────────────────────────────────────
 
-const Spinner = ({ size }: { size: ButtonSize }) => (
-  <svg
-    className={cn("animate-spin shrink-0", iconSizeStyles[size])}
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-  >
-    <circle
-      className="opacity-25"
-      cx="12"
-      cy="12"
-      r="10"
-      stroke="currentColor"
-      strokeWidth="4"
-    />
-    <path
-      className="opacity-75"
-      fill="currentColor"
-      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-    />
-  </svg>
+const Spinner = ({ sizeClass, label }: { sizeClass: string; label: string }) => (
+  <span className="absolute inset-0 flex items-center justify-center" role="status">
+    <svg
+      className={cn("animate-spin shrink-0", sizeClass)}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      />
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+      />
+    </svg>
+    <span className="sr-only">{label}</span>
+  </span>
 );
 
-// ─── Component ───────────────────────────────────────────────────────────────
+// ─── Icon Wrapper ────────────────────────────────────────────────────────────
 
-export const Button = forwardRef<HTMLButtonElement, IButton>(
+const IconSlot = ({ children, sizeClass }: { children: ReactNode; sizeClass: string }) => (
+  <span className={cn("shrink-0", sizeClass)} aria-hidden="true">
+    {children}
+  </span>
+);
+
+// ─── Button ──────────────────────────────────────────────────────────────────
+
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       variant = "primary",
       size = "md",
       isLoading = false,
-      loadingLabel = "Loading…",
+      loadingLabel = "Loading",
       leftIcon,
       rightIcon,
       trackingEvent,
@@ -108,6 +133,7 @@ export const Button = forwardRef<HTMLButtonElement, IButton>(
       className,
       onClick,
       disabled,
+      type = "button",
       children,
       ...props
     },
@@ -120,64 +146,28 @@ export const Button = forwardRef<HTMLButtonElement, IButton>(
     });
 
     const isDisabled = disabled || isLoading;
+    const { button: sizeStyle, icon: iconStyle, gap } = sizeConfig[size];
 
     return (
       <button
         ref={ref}
+        type={type}
         disabled={isDisabled}
         aria-disabled={isDisabled}
         aria-busy={isLoading}
         onClick={handleClick}
-        className={cn(
-          // Base
-          "relative inline-flex items-center justify-center font-medium",
-          "tracking-tight select-none whitespace-nowrap",
-          "transition-all duration-150 ease-out",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2",
-          "cursor-pointer disabled:cursor-not-allowed",
-          // Variant
-          variantStyles[variant],
-          // Size
-          sizeStyles[size],
-          className
-        )}
+        className={cn(baseStyles, variantStyles[variant], sizeStyle, className)}
         {...props}
       >
-        {/* Loading overlay — keeps layout stable */}
-        {isLoading && (
-          <span
-            className="absolute inset-0 flex items-center justify-center"
-            aria-label={loadingLabel}
-          >
-            <Spinner size={size} />
-          </span>
-        )}
+        {isLoading && <Spinner sizeClass={iconStyle} label={loadingLabel} />}
 
-        {/* Content — hidden visually when loading, still in DOM for size */}
         <span
-          className={cn(
-            "inline-flex items-center justify-center gap-[inherit]",
-            isLoading && "invisible"
-          )}
+          className={cn("inline-flex items-center justify-center", gap, isLoading && "invisible")}
           aria-hidden={isLoading}
         >
-          {leftIcon && (
-            <span
-              className={cn("shrink-0", iconSizeStyles[size])}
-              aria-hidden="true"
-            >
-              {leftIcon}
-            </span>
-          )}
+          {leftIcon && <IconSlot sizeClass={iconStyle}>{leftIcon}</IconSlot>}
           {children}
-          {rightIcon && (
-            <span
-              className={cn("shrink-0", iconSizeStyles[size])}
-              aria-hidden="true"
-            >
-              {rightIcon}
-            </span>
-          )}
+          {rightIcon && <IconSlot sizeClass={iconStyle}>{rightIcon}</IconSlot>}
         </span>
       </button>
     );
